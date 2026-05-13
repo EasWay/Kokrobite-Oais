@@ -460,11 +460,10 @@ const PlaceOrder = () => {
                         </div>
                      </div>
                    )}
- </div>
-                   <p className="text-[10px] text-white/40 font-medium italic mt-2 ml-1">
-                     "Note: A 10% service charge applies to all dine-in orders"
-                   </p>
-                </div>
+                    <p className="text-[10px] text-white/40 font-medium italic mt-2 ml-1">
+                      "Note: A 10% service charge applies to all dine-in orders"
+                    </p>
+                 </div>
 
                 <div className="space-y-4">
                    <h3 className="text-xl font-black text-white uppercase">Special Instructions</h3>

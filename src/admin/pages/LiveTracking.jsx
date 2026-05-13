@@ -9,7 +9,16 @@ import {
 } from "react-icons/hi2"
 import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "react-hot-toast"
-import { formatDistanceToNow } from "date-fns"
+// Removed date-fns import
+
+function formatDistanceToNow(date) {
+  if (!date) return "never";
+  const diff = Math.floor((new Date() - new Date(date)) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+  return `${Math.floor(diff / 86400)}d`;
+}
 
 export default function LiveTracking() {
   const [drivers, setDrivers] = useState([])

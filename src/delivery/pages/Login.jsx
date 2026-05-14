@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useDelivery } from "../DeliveryContext"
-import { Phone, Lock, Eye, EyeOff, ArrowLeft, Loader2, Clock } from "lucide-react"
+import { Phone, Lock, Eye, EyeOff, ArrowLeft, Loader2, Clock, Bike } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function DriverLogin() {
@@ -46,9 +46,9 @@ export default function DriverLogin() {
           <motion.div 
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-[64px] mb-2"
+            className="mb-2 text-[#F97316]"
           >
-            🛵
+            <Bike size={64} strokeWidth={1.5} />
           </motion.div>
           <h1 className="text-5xl font-['Playfair_Display'] italic text-white mb-1">
             KO Rider

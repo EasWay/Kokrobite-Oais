@@ -113,8 +113,8 @@ export default function DriversManager() {
       if (addForm.autoApprove) {
         await api.patch(`/admin/drivers/${res.data.driver.id}/approve`)
       }
-
-      toast.success("Driver added successfully! 🛵")
+ 
+      toast.success("Driver added successfully!")
       setShowAddModal(false)
       setAddForm({
         name: "", phone: "", password: "", type: "INHOUSE",
@@ -126,7 +126,7 @@ export default function DriversManager() {
       toast.error(err.response?.data?.message || "Failed to add driver")
     }
   }
-
+ 
   const openDetails = async (driver) => {
     try {
       const res = await api.get(`/admin/drivers/${driver.id}`)
@@ -137,7 +137,7 @@ export default function DriversManager() {
       toast.error("Failed to load driver details")
     }
   }
-
+ 
   return (
     <div className="space-y-8 pb-10">
       
@@ -181,7 +181,7 @@ export default function DriversManager() {
           circleColor="bg-[#10B981]/10 text-[#10B981]"
         />
       </div>
-
+ 
       {/* ── FILTER BAR ── */}
       <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full lg:w-auto flex-1">
@@ -232,7 +232,7 @@ export default function DriversManager() {
           + Add Driver
         </button>
       </div>
-
+ 
       {/* ── DRIVERS TABLE ── */}
       <div className="bg-[#111111] rounded-3xl border border-white/5 overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
@@ -325,7 +325,9 @@ export default function DriversManager() {
                     </td>
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-1.5">
-                        <p className="text-sm text-white font-bold">⭐ {driver.rating.toFixed(1)}</p>
+                        <p className="text-sm text-white font-bold flex items-center gap-1">
+                          <HiOutlineStar className="text-orange-400" /> {driver.rating.toFixed(1)}
+                        </p>
                         <p className="text-[10px] text-white/30 font-sans">({driver._count.ratings})</p>
                       </div>
                     </td>
@@ -338,7 +340,7 @@ export default function DriversManager() {
                           ? 'bg-[#10B981]/15 text-[#10B981]' 
                           : 'bg-[#F59E0B]/15 text-[#F59E0B]'
                       }`}>
-                        {driver.isApproved ? 'Approved ✅' : 'Pending ⏳'}
+                        {driver.isApproved ? 'Approved' : 'Pending'}
                       </span>
                     </td>
                     <td className="px-6 py-5">
@@ -381,7 +383,7 @@ export default function DriversManager() {
           </table>
         </div>
       </div>
-
+ 
       {/* ── DRIVER DETAIL MODAL ── */}
       <AnimatePresence>
         {showDetailModal && selectedDriver && (
@@ -426,7 +428,7 @@ export default function DriversManager() {
                   <HiOutlineXMark size={24} />
                 </button>
               </div>
-
+ 
               {/* Modal Tabs */}
               <div className="flex px-8 border-b border-white/5 bg-white/[0.01]">
                 {["overview", "deliveries", "ratings", "earnings"].map(tab => (
@@ -444,7 +446,7 @@ export default function DriversManager() {
                   </button>
                 ))}
               </div>
-
+ 
               {/* Modal Content */}
               <div className="flex-1 overflow-y-auto p-8 space-y-8 no-scrollbar">
                 
@@ -460,7 +462,7 @@ export default function DriversManager() {
                       <InfoBox label="Vehicle" value={`${selectedDriver.vehicleType} — ${selectedDriver.vehicleNumber}`} icon={<HiOutlineHashtag />} />
                       <InfoBox label="License" value={selectedDriver.licenseNumber || 'N/A'} icon={<HiOutlineIdentification />} />
                     </div>
-
+ 
                     <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8">
                       <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-6">Management Actions</h3>
                       <div className="flex flex-wrap gap-4">
@@ -494,7 +496,7 @@ export default function DriversManager() {
                     </div>
                   </div>
                 )}
-
+ 
                 {activeTab === "deliveries" && (
                   <div className="animate-in fade-in slide-in-from-bottom-2">
                     {selectedDriver.deliveries?.length === 0 ? (
@@ -527,12 +529,14 @@ export default function DriversManager() {
                     )}
                   </div>
                 )}
-
+ 
                 {activeTab === "ratings" && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
                     <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 flex items-center justify-between">
                       <p className="text-white font-bold uppercase tracking-widest text-xs">Rider Performance</p>
-                      <div className="text-2xl font-bold text-white">⭐ {selectedDriver.rating.toFixed(1)} <span className="text-xs text-white/20 ml-2">avg rating</span></div>
+                      <div className="text-2xl font-bold text-white flex items-center gap-2">
+                        <HiOutlineStar className="text-orange-400" /> {selectedDriver.rating.toFixed(1)} <span className="text-xs text-white/20 ml-2">avg rating</span>
+                      </div>
                     </div>
                     {selectedDriver.ratings?.length === 0 ? (
                       <div className="py-20 text-center text-white/20">No ratings yet</div>
@@ -541,7 +545,9 @@ export default function DriversManager() {
                         {selectedDriver.ratings?.map(r => (
                           <div key={r.id} className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-3">
                             <div className="flex justify-between items-center">
-                              <p className="text-[#F97316] font-bold">{"⭐".repeat(r.rating)}</p>
+                              <p className="text-[#F97316] font-bold flex items-center gap-1">
+                                {[...Array(r.rating)].map((_, i) => <HiOutlineStar key={i} />)}
+                              </p>
                               <p className="text-[10px] text-white/20">{new Date(r.createdAt).toLocaleDateString()}</p>
                             </div>
                             <p className="text-sm text-white/70 italic">"{r.comment}"</p>
@@ -551,7 +557,7 @@ export default function DriversManager() {
                     )}
                   </div>
                 )}
-
+ 
                 {activeTab === "earnings" && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
                     <div className="bg-[#10B981]/10 border border-[#10B981]/20 rounded-3xl p-6 flex items-center justify-between">
@@ -584,13 +590,13 @@ export default function DriversManager() {
                     )}
                   </div>
                 )}
-
+ 
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-
+ 
       {/* ── ADD DRIVER MODAL ── */}
       <AnimatePresence>
         {showAddModal && (
@@ -618,7 +624,7 @@ export default function DriversManager() {
                     className="w-full bg-[#0C0A09] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#F97316] outline-none"
                   />
                 </div>
-
+ 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-white/20 ml-1">Phone Number</label>
@@ -645,7 +651,7 @@ export default function DriversManager() {
                     </div>
                   </div>
                 </div>
-
+ 
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-white/20 ml-1">Driver Type</label>
                   <div className="grid grid-cols-2 gap-3">
@@ -664,7 +670,7 @@ export default function DriversManager() {
                     ))}
                   </div>
                 </div>
-
+ 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-white/20 ml-1">Vehicle Type</label>
@@ -687,7 +693,7 @@ export default function DriversManager() {
                     />
                   </div>
                 </div>
-
+ 
                 <div className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
                   <div>
                     <p className="text-xs font-bold text-white">Approve immediately</p>
@@ -696,7 +702,8 @@ export default function DriversManager() {
                   <button 
                     type="button"
                     onClick={() => setAddForm({...addForm, autoApprove: !addForm.autoApprove})}
-                    className={`w-12 h-6 rounded-full relative transition-all ${addForm.autoApprove ? 'bg-[#10B981]' : 'bg-white/10'}`}
+                    className="w-12 h-6 rounded-full relative transition-all"
+                    style={{ backgroundColor: addForm.autoApprove ? '#10B981' : 'rgba(255,255,255,0.1)' }}
                   >
                     <motion.div 
                       animate={{ x: addForm.autoApprove ? 24 : 4 }}
@@ -704,12 +711,12 @@ export default function DriversManager() {
                     />
                   </button>
                 </div>
-
+ 
                 <button 
                   type="submit"
                   className="w-full bg-gradient-to-br from-[#F97316] to-[#FB923C] text-white font-bold py-4 rounded-2xl shadow-xl shadow-[#F97316]/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                 >
-                  Add Driver 🛵
+                  Add Driver
                 </button>
               </form>
             </motion.div>

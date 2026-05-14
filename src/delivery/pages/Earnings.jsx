@@ -105,7 +105,9 @@ export default function DriverEarnings() {
 
       {/* ── HOW EARNINGS WORK ── */}
       <div className="bg-[#F97316]/[0.06] border border-[#F97316]/15 rounded-xl p-5">
-        <h3 className="text-sm font-bold text-white mb-4">How Earnings Work 💡</h3>
+        <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+          How Earnings Work <Info size={16} className="text-[#F97316]" />
+        </h3>
 
         <div className="space-y-1">
           <InfoRow label="Per Delivery Fee" value="GHC 20.00" highlight />

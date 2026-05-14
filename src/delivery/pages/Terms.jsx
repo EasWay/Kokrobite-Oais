@@ -62,7 +62,31 @@ const DriverTerms = () => {
     },
     {
       title: "9. Contact & Support",
-      content: "For questions about these terms:\n📧 Email: hello@kokrobiteoasis.com\n📞 Phone: [KO Phone Number]\n💬 WhatsApp: [KO WhatsApp Number]\n📍 Location: East Legon, Accra, Ghana\n\nManagement hours:\nTuesday – Sunday: 11:00 AM – 8:00 PM\nMonday: Closed"
+      content: (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Mail size={16} className="text-[#F97316]" /> 
+            <span>hello@kokrobiteoasis.com</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Phone size={16} className="text-[#F97316]" /> 
+            <span>[KO Phone Number]</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <MessageCircle size={16} className="text-[#F97316]" /> 
+            <span>[KO WhatsApp Number]</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <MapPin size={16} className="text-[#F97316]" /> 
+            <span>East Legon, Accra, Ghana</span>
+          </div>
+          <div className="pt-4 border-t border-white/5 mt-4">
+            <p className="text-white/80 font-bold mb-2">Management hours:</p>
+            <p>Tuesday – Sunday: 11:00 AM – 8:00 PM</p>
+            <p>Monday: Closed</p>
+          </div>
+        </div>
+      )
     }
   ];
 

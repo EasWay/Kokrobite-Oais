@@ -105,7 +105,7 @@ export default function DriverDashboard() {
               {getGreeting()}
             </p>
             <h2 className="text-2xl font-['Playfair_Display'] text-white mb-2">
-              {driver?.name} 🛵
+              {driver?.name}
             </h2>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${
@@ -203,7 +203,7 @@ export default function DriverDashboard() {
       {/* ── AVAILABLE ORDERS / OFFLINE STATE ── */}
       {driver?.status === 'offline' ? (
         <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-8 text-center space-y-4">
-          <div className="text-5xl">😴</div>
+          <Circle size={48} className="text-white/10 mx-auto" />
           <div className="space-y-1">
             <h3 className="text-xl font-['Playfair_Display'] text-white">You are Offline</h3>
             <p className="text-sm text-white/40">Go online to start receiving delivery orders</p>
@@ -218,8 +218,8 @@ export default function DriverDashboard() {
       ) : !activeOrder ? (
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-              Available Orders 📦
+            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+              Available Orders <Box size={14} />
             </h3>
             {isRefreshing && <RefreshCcw size={12} className="text-orange-500 animate-spin" />}
           </div>
@@ -227,7 +227,7 @@ export default function DriverDashboard() {
           <div className="space-y-3">
             {availableOrders.length === 0 ? (
               <div className="bg-[#1a1a1a]/50 rounded-xl p-10 text-center border border-dashed border-white/5">
-                <div className="text-4xl mb-3">📦</div>
+                <Box size={40} className="text-[#F97316]/20 mx-auto mb-3" />
                 <p className="text-sm text-white/30">No orders available right now</p>
                 <p className="text-[10px] text-white/20 uppercase tracking-widest mt-1">
                   Stay online — new orders will appear here automatically

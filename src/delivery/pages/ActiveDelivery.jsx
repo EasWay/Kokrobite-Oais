@@ -66,7 +66,7 @@ export default function ActiveDelivery() {
     setUpdating(true)
     try {
       await api.post(`/drivers/orders/${delivery.orderId}/pickup`)
-      toast.success("Pickup confirmed! Head to customer now 🛵")
+      toast.success("Pickup confirmed! Head to customer now")
       await fetchActive()
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to confirm pickup")
@@ -123,7 +123,7 @@ export default function ActiveDelivery() {
   if (!delivery) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center text-center p-6 space-y-6">
-        <div className="text-7xl">🛵</div>
+        <Box size={64} className="text-white/5 mx-auto" />
         <div className="space-y-2">
           <h2 className="text-3xl font-['Playfair_Display'] text-white">No Active Delivery</h2>
           <p className="text-sm text-white/40 max-w-[240px]">
@@ -273,7 +273,7 @@ export default function ActiveDelivery() {
                 disabled={updating}
                 className="w-full bg-gradient-to-br from-[#F97316] to-[#FB923C] text-white font-bold uppercase tracking-widest py-4 rounded-xl shadow-[0_8px_25px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3 disabled:opacity-70"
               >
-                {updating ? <Loader2 className="animate-spin" /> : <>Confirm Pickup 🍽️</>}
+                {updating ? <Loader2 className="animate-spin" /> : <>Confirm Pickup</>}
               </button>
               <p className="text-[11px] text-white/40 text-center font-medium">
                 Tap when you have collected the order from Kokrobite Oasis
@@ -292,7 +292,7 @@ export default function ActiveDelivery() {
                 disabled={updating}
                 className="w-full bg-gradient-to-br from-[#10B981] to-[#059669] text-white font-bold uppercase tracking-widest py-4 rounded-xl shadow-[0_8px_25px_rgba(16,185,129,0.2)] flex items-center justify-center gap-3 disabled:opacity-70"
               >
-                {updating ? <Loader2 className="animate-spin" /> : <>Confirm Delivery ✅</>}
+                {updating ? <Loader2 className="animate-spin" /> : <>Confirm Delivery</>}
               </button>
               <p className="text-[11px] text-white/40 text-center font-medium">
                 Tap when you have delivered the order to the customer

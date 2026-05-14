@@ -251,10 +251,10 @@ export default function DriverRegister() {
                 value={formData.vehicleType} onChange={e => setFormData({...formData, vehicleType: e.target.value})}
                 className="w-full bg-[#1a1a1a] border border-white/5 rounded-xl px-4 py-3.5 text-white focus:border-[#F97316] outline-none transition-all appearance-none"
               >
-                <option value="Motorcycle">🏍️ Motorcycle</option>
-                <option value="Car">🚗 Car</option>
-                <option value="Bicycle">🚲 Bicycle</option>
-                <option value="Other">📦 Other</option>
+                <option value="Motorcycle">Motorcycle</option>
+                <option value="Car">Car</option>
+                <option value="Bicycle">Bicycle</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 

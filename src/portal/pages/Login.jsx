@@ -32,8 +32,7 @@ const CustomerLogin = () => {
       // If it's a Google account, we can highlight the Google button
       if (msg.toLowerCase().includes('google sign-in')) {
         toast.error("This account uses Google. Use the button below!", {
-          duration: 5000,
-          icon: '📍'
+          duration: 5000
         });
       } else {
         toast.error(msg);

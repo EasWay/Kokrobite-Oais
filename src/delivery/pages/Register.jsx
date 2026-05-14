@@ -12,7 +12,7 @@ import {
   Car, 
   Package, 
   Palmtree,
-  FileDescription
+  ClipboardList
 } from "lucide-react"
 import api from "../../api/axios"
 import { toast } from "react-hot-toast"
@@ -302,7 +302,7 @@ export default function DriverRegister() {
               <div className="bg-[#F97316]/5 border border-[#F97316]/20 rounded-xl p-4 flex items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mt-1">
-                    <FileDescription size={18} />
+                    <ClipboardList size={18} />
                   </div>
                   <div>
                     <p className="text-white font-bold text-sm">Terms & Conditions</p>

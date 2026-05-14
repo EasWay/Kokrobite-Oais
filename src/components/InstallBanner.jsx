@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useInstallPrompt } from "../hooks/useInstallPrompt"
+import { Palmtree, Share, PlusSquare, CheckCircle2 } from "lucide-react"
 
 export default function InstallBanner() {
   const { isInstallable, isInstalled, 
@@ -58,11 +59,11 @@ export default function InstallBanner() {
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl 
             flex items-center justify-center 
-            flex-shrink-0 text-2xl"
+            flex-shrink-0 text-white"
             style={{ 
               background: "linear-gradient(135deg, #F97316, #FB923C)" 
             }}>
-            🌴
+            <Palmtree size={24} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-white font-bold 
@@ -127,17 +128,17 @@ export default function InstallBanner() {
           {[
             { 
               step: "1", 
-              icon: "⬆️", 
+              icon: <Share size={18} className="text-[#F97316]" />, 
               text: "Tap the Share button at the bottom of Safari" 
             },
             { 
               step: "2", 
-              icon: "➕", 
+              icon: <PlusSquare size={18} className="text-[#F97316]" />, 
               text: "Scroll down and tap \"Add to Home Screen\"" 
             },
             { 
               step: "3", 
-              icon: "✅", 
+              icon: <CheckCircle2 size={18} className="text-[#F97316]" />, 
               text: "Tap \"Add\" to install KO Eats on your home screen" 
             },
           ].map((item) => (
@@ -156,7 +157,7 @@ export default function InstallBanner() {
                 }}>
                 {item.step}
               </div>
-              <span className="text-sm">
+              <span className="flex-shrink-0">
                 {item.icon}
               </span>
               <p className="text-white/70 text-sm">

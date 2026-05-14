@@ -293,7 +293,7 @@ const Dashboard = () => {
           className="lg:col-span-3 bg-[#1a1a1a] border border-white/5 rounded-2xl overflow-hidden"
         >
           <div className="p-8 border-b border-white/5 flex justify-between items-center">
-            <h3 className="text-xl font-display font-bold text-white uppercase tracking-tight">Recent Orders 🛍️</h3>
+            <h3 className="text-xl font-display font-bold text-white uppercase tracking-tight">Recent Orders</h3>
             <Link to="/admin/orders" className="text-[#F97316] text-xs font-bold uppercase tracking-[0.2em] hover:underline">View All Orders →</Link>
           </div>
           <div className="overflow-x-auto">
@@ -471,7 +471,7 @@ const Dashboard = () => {
           className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-8 h-[400px] flex flex-col"
         >
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-white">Recent Activity 🌴</h3>
+            <h3 className="text-lg font-bold text-white">Recent Activity</h3>
             <p className="text-[10px] text-[#F97316] font-bold uppercase tracking-widest mt-1">Auto-refreshes every 30s</p>
           </div>
           <div className="flex-1 overflow-y-auto no-scrollbar space-y-6">

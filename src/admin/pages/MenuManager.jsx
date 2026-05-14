@@ -270,7 +270,7 @@ const MenuManager = () => {
                   {item.image ? (
                     <img src={getImgUrl(item.image)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
                   ) : (
-                    <div className="text-4xl">🥘</div>
+                    <HiOutlinePhoto size={40} className="text-white/10" />
                   )}
                   
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
@@ -349,7 +349,7 @@ const MenuManager = () => {
                 <tr key={item.id} className="hover:bg-white/[0.02] transition-colors group font-sans">
                   <td className="px-8 py-4">
                     <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/5 flex items-center justify-center">
-                      {item.image ? <img src={getImgUrl(item.image)} className="w-full h-full object-cover" alt="" /> : <span className="text-xl">🥘</span>}
+                      {item.image ? <img src={getImgUrl(item.image)} className="w-full h-full object-cover" alt="" /> : <HiOutlinePhoto size={20} className="text-white/10" />}
                     </div>
                   </td>
                   <td className="px-8 py-4 font-bold text-white">{item.name}</td>

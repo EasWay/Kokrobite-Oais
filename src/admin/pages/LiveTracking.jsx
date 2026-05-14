@@ -148,8 +148,8 @@ export default function LiveTracking() {
         {/* ── LEFT PANEL: ACTIVE DELIVERIES ── */}
         <div className="w-full lg:w-[40%] space-y-4 flex flex-col">
           <div className="flex items-center gap-2 px-1">
-            <div className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse" />
-            <h2 className="font-bold text-sm text-white uppercase tracking-widest">Live Deliveries 🛵</h2>
+            <HiOutlineTruck className="text-[#F97316]" size={16} />
+            <h2 className="font-bold text-sm text-white uppercase tracking-widest">Live Deliveries</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto no-scrollbar space-y-4 pr-2">
@@ -268,9 +268,9 @@ export default function LiveTracking() {
                     driver.status === 'delivering' ? 'bg-[#F97316]/10 text-[#F97316]' : 
                     'bg-white/5 text-white/40'
                   }`}>
-                    {driver.status === 'online' && "🟢 Online"}
-                    {driver.status === 'delivering' && "🛵 Delivering"}
-                    {driver.status === 'offline' && "⚫ Offline"}
+                    {driver.status === 'online' && <span className="flex items-center gap-1">Online</span>}
+                    {driver.status === 'delivering' && <span className="flex items-center gap-1">Delivering</span>}
+                    {driver.status === 'offline' && <span className="flex items-center gap-1">Offline</span>}
                   </div>
 
                   {driver.status === 'delivering' && (

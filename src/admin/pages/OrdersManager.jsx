@@ -344,7 +344,7 @@ const OrdersManager = () => {
               ) : filteredOrders.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="p-20 text-center">
-                    <div className="flex justify-center mb-4 text-6xl">🌴</div>
+                    <HiOutlineShoppingBag size={48} className="text-[#F97316] mb-4 mx-auto" />
                     <h3 className="text-2xl font-display font-bold text-white mb-2">No Orders Yet</h3>
                     <p className="text-white/40 mb-8 max-w-sm mx-auto font-sans">Kokrobite Oasis orders will appear here when customers order.</p>
                     <button 

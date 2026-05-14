@@ -5,6 +5,7 @@ import {
   HiOutlineEnvelope, HiLockClosed, HiOutlineEye, HiOutlineEyeSlash, 
   HiOutlineUser, HiOutlinePhone, HiOutlineArrowRight, HiOutlineShieldCheck
 } from 'react-icons/hi2';
+import { Gift } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-hot-toast';
 import { useCustomer } from '../CustomerContext';
@@ -47,7 +48,7 @@ const CustomerRegister = () => {
     try {
       const res = await api.post('/customers/auth/register', formData);
       login(res.data.token, res.data.customer);
-      toast.success('Welcome to KO Eats! 🌴 You earned 50 Oasis Points');
+      toast.success('Welcome to KO Eats! You earned 50 Oasis Points');
       navigate('/portal/dashboard');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed.');
@@ -62,7 +63,7 @@ const CustomerRegister = () => {
         credential: response.credential 
       });
       login(res.data.token, res.data.customer);
-      toast.success('Registered with Google! 👋');
+      toast.success('Registered with Google!');
       navigate('/portal/dashboard');
     } catch (err) {
       toast.error('Google Sign-Up failed');
@@ -123,7 +124,7 @@ const CustomerRegister = () => {
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-[#1C0A00] uppercase tracking-widest ml-1">Phone Number</label>
                 <div className="relative group">
-                    <HiOutlinePhone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
+                    <HiOutlineDevicePhoneMobile className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type="tel" 
                       required
@@ -267,7 +268,9 @@ const CustomerRegister = () => {
 
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl self-start">
              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-[#F97316] flex items-center justify-center text-white font-black text-xs">🎁</div>
+                <div className="w-8 h-8 rounded-full bg-[#F97316] flex items-center justify-center text-white">
+                   <Gift size={14} />
+                </div>
                 <span className="text-sm font-black text-white uppercase tracking-tight font-sans">Registration Bonus</span>
              </div>
              <p className="text-xs text-white/60">Your first 50 points are on the house!</p>

@@ -51,7 +51,7 @@ const DriverLanding = () => {
         {/* Top Nav Bar */}
         <nav className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center p-6 md:px-12">
           <div className="text-2xl font-display italic font-bold text-white flex items-center gap-2">
-            <span>🛵</span> KO Rider
+            <Bike className="text-[#F97316]" size={28} /> KO Rider
           </div>
           <div className="flex gap-4">
             <Link 
@@ -74,9 +74,9 @@ const DriverLanding = () => {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block mb-6 bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] px-4 py-2 rounded-full"
+            className="inline-flex items-center gap-2 mb-6 bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] px-4 py-2 rounded-full"
           >
-            🌴 Kokrobite Oasis Official Delivery
+            <Palmtree size={14} /> Kokrobite Oasis Official Delivery
           </motion.div>
 
           <motion.h1 
@@ -88,8 +88,8 @@ const DriverLanding = () => {
             <span className="block text-white font-light text-[52px] md:text-[80px] lg:text-[96px]">
               Deliver. Earn.
             </span>
-            <span className="block text-[#F97316] italic text-[52px] md:text-[80px] lg:text-[96px]">
-              Your Way. 🛵
+            <span className="block text-[#F97316] italic text-[52px] md:text-[80px] lg:text-[96px] flex items-center justify-center gap-4">
+              Your Way. <Bike size={64} className="opacity-20" />
             </span>
           </motion.h1>
 
@@ -110,9 +110,9 @@ const DriverLanding = () => {
           >
             <Link 
               to="/delivery/register"
-              className="bg-gradient-to-br from-[#F97316] to-[#FB923C] text-white font-bold uppercase tracking-wider text-sm px-10 py-4 rounded-xl shadow-[0_10px_40px_rgba(249,115,22,0.35)] hover:scale-105 transition-transform"
+              className="bg-gradient-to-br from-[#F97316] to-[#FB923C] text-white font-bold uppercase tracking-wider text-sm px-10 py-4 rounded-xl shadow-[0_10px_40px_rgba(249,115,22,0.35)] hover:scale-105 transition-transform flex items-center gap-2"
             >
-              Start Earning Today 🛵
+              Start Earning Today <Bike size={18} />
             </Link>
             <Link 
               to="/delivery/login"
@@ -312,9 +312,9 @@ const DriverLanding = () => {
           
           <Link 
             to="/delivery/register"
-            className="inline-block bg-white text-[#F97316] font-bold uppercase tracking-wider text-sm px-12 py-5 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:scale-105 transition-transform"
+            className="inline-flex items-center gap-3 bg-white text-[#F97316] font-bold uppercase tracking-wider text-sm px-12 py-5 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:scale-105 transition-transform"
           >
-            Apply Now — It's Free 🛵
+            Apply Now — It's Free <Bike size={20} />
           </Link>
           
           <div className="mt-8">
@@ -332,7 +332,7 @@ const DriverLanding = () => {
       <footer className="bg-[#0C0A09] border-t border-[#F97316]/10 py-10 px-6 md:px-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3 text-white/40 text-sm">
-            <span className="text-lg">🛵</span>
+            <Bike size={18} />
             <span>KO Rider by Kokrobite Oasis</span>
           </div>
           

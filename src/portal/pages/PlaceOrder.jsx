@@ -9,6 +9,7 @@ import {
   HiOutlineStar, HiOutlineMagnifyingGlass, HiOutlineBanknotes, HiOutlineMap,
   HiOutlineClock, HiOutlineShieldExclamation
 } from 'react-icons/hi2';
+import { Palmtree, Rocket } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { getImgUrl } from '../../utils/image';
 import { useCustomer } from '../CustomerContext';
@@ -169,7 +170,7 @@ const PlaceOrder = () => {
       setStep(4); // Success screen (for Cash orders)
       setCart([]);
       refreshCustomer();
-      toast.success('Order placed successfully! 🚀');
+      toast.success('Order placed successfully!');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to place order');
     } finally {
@@ -572,7 +573,9 @@ const PlaceOrder = () => {
                    <HiOutlineRocketLaunch size={48} />
                 </div>
                 <div>
-                   <h2 className="text-4xl font-black text-white tracking-tight uppercase mb-2">Order Placed! 🌴</h2>
+                   <h2 className="text-4xl font-black text-white tracking-tight uppercase mb-2 flex items-center justify-center gap-4">
+                     Order Placed! <Palmtree className="text-[#F97316]" size={40} />
+                   </h2>
                    <p className="text-white/40 font-medium italic">"Your Kokrobite Oasis order is confirmed"</p>
                 </div>
                 

@@ -236,7 +236,7 @@ const ReviewsManager = () => {
           <AnimatePresence>
             {filteredReviews.length === 0 ? (
               <div className="lg:col-span-2 bg-[#0C0A09] border border-[#F97316]/10 rounded-3xl p-20 text-center">
-                <div className="text-6xl mb-6">⭐</div>
+                <HiOutlineStar size={48} className="text-[#F97316] mb-6 mx-auto" />
                 <h3 className="text-2xl font-display font-bold text-white mb-2">No Reviews Yet</h3>
                 <p className="text-white/40 max-w-sm mx-auto font-sans">Customer reviews for Kokrobite Oasis will appear here</p>
               </div>
@@ -280,7 +280,7 @@ const ReviewsManager = () => {
                            </span>
                          )}
                          <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded font-sans flex items-center gap-1 ${review.approved ? 'bg-[#10B981]/15 text-[#10B981]' : 'bg-[#F59E0B]/15 text-[#F59E0B]'}`}>
-                           {review.approved ? 'Published ✅' : 'Pending Review'}
+                           {review.approved ? 'Published' : 'Pending Review'}
                          </span>
                        </div>
                     </div>

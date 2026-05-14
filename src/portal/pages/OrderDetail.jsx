@@ -8,6 +8,7 @@ import {
   HiOutlineShieldExclamation, HiOutlineExclamationTriangle, HiOutlineChatBubbleLeftRight,
   HiOutlinePhone, HiOutlineDevicePhoneMobile
 } from 'react-icons/hi2';
+import { MapPin } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { io } from "socket.io-client";
 import api from '../../api/axios';
@@ -261,7 +262,7 @@ const OrderDetail = () => {
                         <p className="font-bold text-white text-sm capitalize font-sans">{order.paymentMethod}</p>
                         {(() => {
                            const s = order.paymentStatus;
-                           if (s === 'paid') return <span className="px-3 py-1 bg-green-500/10 text-[#10B981] text-[10px] font-bold rounded-full uppercase tracking-widest">Paid ✅</span>;
+                           if (s === 'paid') return <span className="px-3 py-1 bg-green-500/10 text-[#10B981] text-[10px] font-bold rounded-full uppercase tracking-widest">Paid</span>;
                            if (s === 'pending') return <span className="px-3 py-1 bg-blue-500/10 text-[#3B82F6] text-[10px] font-bold rounded-full uppercase tracking-widest">Processing...</span>;
                            if (s === 'failed') return <span className="px-3 py-1 bg-red-500/10 text-[#EF4444] text-[10px] font-bold rounded-full uppercase tracking-widest">Failed</span>;
                            return <span className="px-3 py-1 bg-amber-500/10 text-[#F59E0B] text-[10px] font-bold rounded-full uppercase tracking-widest">Awaiting Payment</span>;
@@ -311,7 +312,9 @@ const OrderDetail = () => {
                          {driver?.vehicleType || order.delivery.driver.vehicleType} • {driver?.vehicleNumber || order.delivery.driver.vehicleNumber}
                       </p>
                       {driverLocation && (
-                        <p className="text-[10px] text-[#F97316] font-bold mt-2 animate-pulse">📍 Driver location updating live...</p>
+                        <p className="text-[10px] text-[#F97316] font-bold mt-2 animate-pulse flex items-center gap-1">
+                          <MapPin size={10} /> Driver location updating live...
+                        </p>
                       )}
                    </div>
                    <a 
@@ -361,7 +364,7 @@ const OrderDetail = () => {
                         }}
                         className="w-full bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] font-black py-4 rounded-2xl transition-all text-xs uppercase tracking-widest flex items-center justify-center gap-2"
                       >
-                         <HiOutlineDevicePhoneMobile size={18} /> Pay Now with MoMo 📱
+                         <HiOutlineDevicePhoneMobile size={18} /> Pay Now with MoMo
                       </button>
                     )}
                     <button 

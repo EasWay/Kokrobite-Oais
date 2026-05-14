@@ -145,37 +145,46 @@ import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @route   POST /api/customers/auth/google
-// @desc    Google OAuth login/register
+// @desc    Google OAuth login/register (Secure verification)
 // @access  Public
 router.post("/google", async (req, res) => {
   try {
-    console.log("Google auth body:", JSON.stringify(req.body));
-    const { googleId, email, name, avatar } = req.body;
+    const { credential } = req.body;
 
-    if (!email || email.trim() === "") {
+    if (!credential) {
       return res.status(400).json({ 
-        message: "Email is required. Google data not received correctly.",
-        received: req.body
+        message: "Google credential is required." 
       });
     }
 
-    let customer = null;
+    // Verify the ID Token from Google
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name, picture: avatar } = payload;
+
+    if (!email) {
+      return res.status(400).json({ 
+        message: "Could not retrieve email from Google token." 
+      });
+    }
+
+    let customer = await prisma.customer.findUnique({ where: { email } });
     let isNewUser = false;
 
-    // Check if customer exists by email
-    customer = await prisma.customer.findUnique({ where: { email } });
-
     if (customer) {
-      // Update googleId if missing
-      if (!customer.googleId) {
-        customer = await prisma.customer.update({
-          where: { id: customer.id },
-          data: { 
-            googleId: googleId || null,
-            avatar: avatar || customer.avatar
-          }
-        });
-      }
+      // Link Google account if not linked, or update profile info
+      customer = await prisma.customer.update({
+        where: { id: customer.id },
+        data: { 
+          googleId: googleId,
+          avatar: avatar || customer.avatar,
+          lastLoginAt: new Date()
+        }
+      });
     } else {
       // Create new customer
       isNewUser = true;
@@ -183,15 +192,16 @@ router.post("/google", async (req, res) => {
         data: {
           name: name || "KO Eats Customer",
           email,
-          googleId: googleId || null,
-          avatar: avatar || null,
+          googleId,
+          avatar,
           isVerified: true,
           loyaltyPoints: 50,
-          isActive: true
+          isActive: true,
+          lastLoginAt: new Date()
         }
       });
 
-      // Welcome notification
+      // Welcome rewards
       await prisma.notification.create({
         data: {
           customerId: customer.id,
@@ -202,7 +212,6 @@ router.post("/google", async (req, res) => {
         }
       });
 
-      // Loyalty history
       await prisma.loyaltyHistory.create({
         data: {
           customerId: customer.id,
@@ -213,19 +222,9 @@ router.post("/google", async (req, res) => {
       });
     }
 
-    // Update last login
-    await prisma.customer.update({
-      where: { id: customer.id },
-      data: { lastLoginAt: new Date() }
-    });
-
-    // Sign token
+    // Sign JWT token
     const token = jwt.sign(
-      { 
-        id: customer.id, 
-        email: customer.email,
-        role: "customer" 
-      },
+      { id: customer.id, email: customer.email, role: "customer" },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
@@ -241,15 +240,12 @@ router.post("/google", async (req, res) => {
 
     return res.json({
       token,
-      customer: { 
-        ...customer, 
-        password: undefined 
-      },
+      customer: { ...customer, password: undefined },
       isNewUser
     });
 
   } catch (err) {
-    console.error("Google auth error:", err.message);
+    console.error("Google Auth Verification Error:", err.message);
     return res.status(500).json({
       message: "Google authentication failed",
       error: err.message

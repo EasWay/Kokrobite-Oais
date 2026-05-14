@@ -3,13 +3,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { 
-  FileText, 
   CheckCircle2, 
   AlertCircle,
   Mail,
   Phone,
   MessageCircle,
-  MapPin
+  MapPin,
+  Bike,
+  ClipboardList
 } from "lucide-react";
 
 const DriverTerms = () => {
@@ -75,8 +76,8 @@ const DriverTerms = () => {
         >
           <HiOutlineArrowLeft /> Back
         </button>
-        <div className="text-2xl font-display italic font-bold text-white absolute left-1/2 -translate-x-1/2">
-          <span>🛵</span> KO Rider
+        <div className="text-2xl font-display italic font-bold text-white absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <Bike size={24} className="text-[#F97316]" /> KO Rider
         </div>
         <div className="w-10" /> {/* Spacer for symmetry */}
       </nav>
@@ -85,9 +86,11 @@ const DriverTerms = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mx-6 mt-6 p-8 rounded-2xl bg-gradient-to-br from-[#1C0A00] to-[#F97316] text-center shadow-xl shadow-[#F97316]/10"
+        className="mx-6 mt-6 p-8 rounded-2xl bg-gradient-to-br from-[#1C0A00] to-[#F97316] text-center shadow-xl shadow-[#F97316]/10 flex flex-col items-center"
       >
-        <div className="text-5xl mb-4">📋</div>
+        <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md">
+          <ClipboardList size={40} className="text-white" />
+        </div>
         <h1 className="font-display text-[32px] text-white leading-tight">Driver Terms & Conditions</h1>
         <p className="text-white/60 text-sm mt-2">Kokrobite Oasis KO Rider Program</p>
         <p className="text-white/40 text-xs mt-1">Effective: January 2026</p>

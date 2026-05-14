@@ -5,6 +5,7 @@ import {
   HiOutlineShoppingBag, HiOutlineArrowRight, HiOutlineMagnifyingGlass,
   HiOutlineFunnel, HiOutlineClock, HiOutlineChevronRight
 } from 'react-icons/hi2';
+import { Palmtree } from 'lucide-react';
 import api from '../../api/axios';
 import OrderStatusBadge from '../components/OrderStatusBadge';
 
@@ -136,9 +137,9 @@ const OrderHistory = () => {
           ))
         ) : (
           <div className="bg-[#0C0A09] border border-white/5 p-20 rounded-[3rem] text-center space-y-6">
-             <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-white/10 text-4xl">
-                🌴
-             </div>
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-[#F97316]">
+                 <Palmtree size={40} />
+              </div>
              <div>
                 <h3 className="text-xl font-display font-bold text-white mb-2">No Orders Yet</h3>
                 <p className="text-white/40 text-sm max-w-xs mx-auto font-sans">Your Kokrobite Oasis orders will appear here</p>

@@ -5,6 +5,15 @@ import {
   HiOutlineArrowLeft, HiOutlineEye, HiOutlineEyeSlash, 
   HiOutlineCheckCircle, HiOutlineClock, HiOutlineBellAlert
 } from "react-icons/hi2"
+import { 
+  Building2, 
+  Rocket, 
+  Bike, 
+  Car, 
+  Package, 
+  Palmtree,
+  FileDescription
+} from "lucide-react"
 import api from "../../api/axios"
 import { toast } from "react-hot-toast"
 
@@ -125,9 +134,14 @@ export default function DriverRegister() {
         </Link>
 
         <div className="text-center mb-10">
-          <span className="text-5xl block mb-4">🛵</span>
+          <div className="w-20 h-20 bg-[#F97316]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#F97316]/20">
+            <Bike size={40} className="text-[#F97316]" />
+          </div>
           <h1 className="text-4xl font-display italic font-bold text-white mb-1">KO Rider</h1>
-          <p className="text-white/30 text-xs">by Kokrobite Oasis</p>
+          <div className="flex items-center justify-center gap-2 text-white/30 text-xs">
+            <Palmtree size={12} />
+            <span>by Kokrobite Oasis</span>
+          </div>
           <p className="text-[#F97316] text-[10px] font-bold uppercase tracking-[0.2em] mt-3">Join our delivery team</p>
         </div>
 
@@ -219,12 +233,12 @@ export default function DriverRegister() {
               <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">I am a...</label>
               <div className="grid grid-cols-2 gap-3">
                 <SelectionCard 
-                  title="In-House" icon="🏢" sub="Employed by KO" 
+                  title="In-House" icon={<Building2 size={16} />} sub="Employed by KO" 
                   selected={formData.type === 'inhouse'} 
                   onClick={() => setFormData({...formData, type: 'inhouse'})} 
                 />
                 <SelectionCard 
-                  title="Freelance" icon="🚀" sub="Contractor" 
+                  title="Freelance" icon={<Rocket size={16} />} sub="Contractor" 
                   selected={formData.type === 'freelance'} 
                   onClick={() => setFormData({...formData, type: 'freelance'})} 
                 />
@@ -288,7 +302,7 @@ export default function DriverRegister() {
               <div className="bg-[#F97316]/5 border border-[#F97316]/20 rounded-xl p-4 flex items-center justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#F97316]/10 flex items-center justify-center text-[#F97316] mt-1">
-                    <FileText size={18} />
+                    <FileDescription size={18} />
                   </div>
                   <div>
                     <p className="text-white font-bold text-sm">Terms & Conditions</p>
@@ -330,7 +344,9 @@ export default function DriverRegister() {
           >
             {loading ? (
               <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Submitting...</>
-            ) : "Submit Application 🛵"}
+            ) : (
+              <span className="flex items-center gap-2">Submit Application <Bike size={18} /></span>
+            )}
           </button>
         </form>
       </div>
@@ -348,7 +364,10 @@ function SelectionCard({ title, icon, sub, selected, onClick }) {
           : 'bg-[#1a1a1a] border-white/5 hover:border-white/10'
       }`}
     >
-      <p className="text-white text-sm font-semibold mb-0.5">{icon} {title}</p>
+      <p className="text-white text-sm font-semibold mb-0.5 flex items-center gap-2">
+        <span className={selected ? 'text-[#F97316]' : 'text-white/40'}>{icon}</span>
+        {title}
+      </p>
       <p className="text-[10px] text-white/40">{sub}</p>
     </button>
   )

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { HiOutlineEnvelope, HiLockClosed, HiOutlineEye, HiOutlineEyeSlash, HiOutlineArrowRight } from 'react-icons/hi2';
+import { HiOutlineEnvelope, HiLockClosed, HiOutlineEye, HiOutlineEyeSlash, HiOutlineArrowRight, HiOutlineArrowLeft } from 'react-icons/hi2';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-hot-toast';
 import { useCustomer } from '../CustomerContext';
@@ -23,7 +23,7 @@ const CustomerLogin = () => {
       setError('');
       const res = await api.post('/customers/auth/login', { ...formData, rememberMe });
       login(res.data.token, res.data.customer);
-      toast.success('Welcome back! 👋');
+      toast.success('Welcome back!');
       navigate('/portal/dashboard');
     } catch (err) {
       const msg = err.response?.data?.message || 'Login failed. Check your credentials.';
@@ -33,7 +33,7 @@ const CustomerLogin = () => {
       if (msg.toLowerCase().includes('google sign-in')) {
         toast.error("This account uses Google. Use the button below!", {
           duration: 5000,
-          icon: '👉'
+          icon: '📍'
         });
       } else {
         toast.error(msg);
@@ -48,7 +48,6 @@ const CustomerLogin = () => {
       setLoading(true);
       setError('');
 
-      // response.credential is a JWT token
       const credential = response.credential;
 
       if (!credential) {
@@ -56,35 +55,15 @@ const CustomerLogin = () => {
         return;
       }
 
-      // Decode the JWT payload (base64)
-      const base64Url = credential.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const payload = JSON.parse(window.atob(base64));
-
-      console.log("Google payload:", payload);
-
-      // Extract user info from decoded token
-      const googleData = {
-        googleId: payload.sub,
-        email: payload.email,
-        name: payload.name,
-        avatar: payload.picture
-      };
-
-      if (!googleData.email) {
-        setError("Could not get email from Google. Please try again.");
-        return;
-      }
-
-      // Send to backend
-      const res = await api.post("/customers/auth/google", googleData);
+      // Send raw credential to backend for secure verification
+      const res = await api.post("/customers/auth/google", { credential });
 
       const { token, customer } = res.data;
       
       // Use the context login to keep state in sync
       login(token, customer);
 
-      toast.success('Welcome back with Google! 👋');
+      toast.success('Welcome back with Google!');
       navigate("/portal/dashboard");
 
     } catch (err) {
@@ -112,11 +91,8 @@ const CustomerLogin = () => {
         </div>
         
         <div className="relative z-10 w-full flex flex-col justify-between p-16">
-          <Link to="/" className="flex items-center gap-4">
-             <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center p-2 shadow-2xl overflow-hidden backdrop-blur-md">
-              <img src="/icons/logo.png" alt="KO" className="w-full h-full object-contain" />
-            </div>
-            <span className="text-2xl font-display font-bold tracking-tighter uppercase text-white">Kokrobite <span className="text-[#F97316]">Oasis</span></span>
+          <Link to="/" className="flex items-center gap-3 px-4 py-3 text-white/40 hover:text-white transition-colors text-sm font-bold">
+            <HiOutlineArrowLeft size={18} /> Back to Website
           </Link>
 
           <div>

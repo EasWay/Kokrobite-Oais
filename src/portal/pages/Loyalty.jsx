@@ -5,6 +5,7 @@ import {
   HiOutlineGift, HiOutlineArrowRight, HiLockClosed,
   HiOutlineCalendarDays, HiOutlineInformationCircle
 } from 'react-icons/hi2';
+import { Palmtree } from 'lucide-react';
 import { useCustomer } from '../CustomerContext';
 import api from '../../api/axios';
 
@@ -53,9 +54,10 @@ const OasisPoints = () => {
                  initial={{ y: 20, opacity: 0 }}
                  animate={{ y: 0, opacity: 1 }}
                  transition={{ delay: 0.1 }}
-                 className="text-6xl font-display font-bold text-white tracking-tighter"
+                 className="text-6xl font-display font-bold text-white tracking-tighter flex items-center justify-center gap-4"
                >
-                 🌴 {customer?.loyaltyPoints || 0} Oasis Points
+                 <Palmtree size={56} className="text-white/40" />
+                 {customer?.loyaltyPoints || 0} Oasis Points
                </motion.h2>
                <p className="text-white/60 font-sans font-bold uppercase tracking-[0.3em] text-xs mt-2">Available Balance</p>
             </div>

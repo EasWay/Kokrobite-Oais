@@ -5,6 +5,7 @@ import {
   HiOutlineGift, HiOutlineShoppingBag, HiOutlineStar, HiOutlineTrash,
   HiOutlineChatBubbleLeftRight, HiOutlinePaperAirplane, HiOutlineHandThumbUp
 } from 'react-icons/hi2';
+import { Bell } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import api from '../../api/axios';
 
@@ -160,8 +161,8 @@ const Notifications = () => {
               animate={{ opacity: 1 }}
               className="bg-[#0C0A09] border border-white/5 p-24 rounded-[3rem] text-center space-y-6"
             >
-               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-white/10 text-4xl">
-                  🔔
+               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-[#F97316]">
+                  <Bell size={40} />
                </div>
                <div>
                   <h3 className="text-xl font-display font-bold text-white mb-2">No Notifications Yet</h3>

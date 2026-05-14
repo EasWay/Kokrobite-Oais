@@ -5,26 +5,50 @@ import {
   HiOutlinePhoto, HiOutlineXMark, HiOutlineCheckCircle,
   HiOutlineInformationCircle, HiOutlineClock, HiOutlineChevronRight
 } from 'react-icons/hi2';
+import { 
+  Bug, 
+  Sparkles, 
+  Utensils, 
+  Truck, 
+  Smartphone, 
+  CreditCard, 
+  MessageSquare, 
+  Settings,
+  Palmtree,
+  Frown,
+  Meh,
+  Smile,
+  Languages,
+  Laugh
+} from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import api from '../../api/axios';
 
 const CATEGORIES = [
-  { id: 'bug_report', label: 'Bug Report', icon: '🐛', color: 'bg-red-500/10 text-red-500' },
-  { id: 'feature_request', label: 'Feature Request', icon: '✨', color: 'bg-blue-500/10 text-blue-500' },
-  { id: 'food_quality', label: 'Food Quality', icon: '🍔', color: 'bg-orange-500/10 text-orange-500' },
-  { id: 'delivery_experience', label: 'Delivery', icon: '🚴', color: 'bg-yellow-500/10 text-yellow-500' },
-  { id: 'app_experience', label: 'App Experience', icon: '📱', color: 'bg-purple-500/10 text-purple-500' },
-  { id: 'payment_issue', label: 'Payment Issue', icon: '💳', color: 'bg-red-500/10 text-red-500' },
-  { id: 'general', label: 'General', icon: '💬', color: 'bg-gray-500/10 text-gray-400' },
-  { id: 'other', label: 'Other', icon: '🔧', color: 'bg-gray-500/10 text-gray-400' }
+  { id: 'bug_report', label: 'Bug Report', icon: <Bug size={14} />, color: 'bg-red-500/10 text-red-500' },
+  { id: 'feature_request', label: 'Feature Request', icon: <Sparkles size={14} />, color: 'bg-blue-500/10 text-blue-500' },
+  { id: 'food_quality', label: 'Food Quality', icon: <Utensils size={14} />, color: 'bg-orange-500/10 text-orange-500' },
+  { id: 'delivery_experience', label: 'Delivery', icon: <Truck size={14} />, color: 'bg-yellow-500/10 text-yellow-500' },
+  { id: 'app_experience', label: 'App Experience', icon: <Smartphone size={14} />, color: 'bg-purple-500/10 text-purple-500' },
+  { id: 'payment_issue', label: 'Payment Issue', icon: <CreditCard size={14} />, color: 'bg-red-500/10 text-red-500' },
+  { id: 'general', label: 'General', icon: <MessageSquare size={14} />, color: 'bg-gray-500/10 text-gray-400' },
+  { id: 'other', label: 'Other', icon: <Settings size={14} />, color: 'bg-gray-500/10 text-gray-400' }
 ];
 
 const RATING_LABELS = {
-  1: "😤 Very Poor",
-  2: "😕 Poor",
-  3: "😐 Okay",
-  4: "😊 Good",
-  5: "🤩 Excellent!"
+  1: "Very Poor",
+  2: "Poor",
+  3: "Okay",
+  4: "Good",
+  5: "Excellent!"
+};
+
+const RATING_ICONS = {
+  1: <Frown className="text-red-500" />,
+  2: <Meh className="text-orange-400" />,
+  3: <Meh className="text-yellow-400" />,
+  4: <Smile className="text-green-400" />,
+  5: <Laugh className="text-green-500" />
 };
 
 const FeedbackPage = () => {
@@ -196,7 +220,9 @@ const FeedbackPage = () => {
                <div className="p-8 border-b border-white/5 flex justify-between items-center">
                   <div>
                     <h3 className="text-2xl font-display font-bold text-white uppercase">Share Your Feedback</h3>
-                    <p className="text-white/40 text-sm font-sans font-medium">Help us make KO Eats better. Earn 🌴 5 Oasis Points per submission!</p>
+                    <p className="text-white/40 text-sm font-sans font-medium flex items-center gap-2">
+                      Help us make KO Eats better. Earn <Palmtree size={14} className="text-[#F97316]" /> 5 Oasis Points per submission!
+                    </p>
                   </div>
                   <button onClick={() => setShowForm(false)} className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-white/40 hover:text-white transition-colors">
                     <HiOutlineXMark size={20} />
@@ -208,12 +234,12 @@ const FeedbackPage = () => {
                     <motion.div 
                       initial={{ scale: 0 }} 
                       animate={{ scale: 1 }} 
-                      className="w-20 h-20 bg-[#F97316]/20 text-[#F97316] rounded-full flex items-center justify-center mx-auto mb-6 text-4xl"
+                      className="w-20 h-20 bg-[#F97316]/20 text-[#F97316] rounded-full flex items-center justify-center mx-auto mb-6"
                     >
-                      🌴
+                      <Palmtree size={40} />
                     </motion.div>
                     <h4 className="text-2xl font-display font-bold text-white mb-2 uppercase">Thank You For Your Feedback!</h4>
-                    <p className="text-white/40 font-sans mb-8">You have earned 5 Oasis Points 🎉<br/>Your feedback helps us serve you better at Kokrobite Oasis</p>
+                    <p className="text-white/40 font-sans mb-8">You have earned 5 Oasis Points <Sparkles size={14} className="inline text-[#F97316]" /><br/>Your feedback helps us serve you better at Kokrobite Oasis</p>
                     <button 
                       onClick={() => { setShowForm(false); setSubmitted(false); }}
                       className="bg-white/5 hover:bg-white/10 text-white font-bold px-8 py-3 rounded-2xl transition-all uppercase tracking-widest text-xs"
@@ -238,7 +264,12 @@ const FeedbackPage = () => {
                             </button>
                           ))}
                        </div>
-                       <p className="text-[#F97316] font-display font-bold text-lg">{RATING_LABELS[formData.rating]}</p>
+                       <div className="flex justify-center gap-3 mb-3 items-center">
+                           <div className="text-[#F97316]">
+                             {RATING_ICONS[formData.rating]}
+                           </div>
+                           <p className="text-[#F97316] font-display font-bold text-lg">{RATING_LABELS[formData.rating]}</p>
+                        </div>
                     </div>
 
                     {/* Category */}
@@ -256,8 +287,10 @@ const FeedbackPage = () => {
                                   : 'bg-white/5 border-white/5 text-white/40 hover:text-white hover:bg-white/10'
                               }`}
                             >
-                              <span className="mr-2">{cat.icon}</span>
-                              {cat.label}
+                               <span className="flex items-center gap-2">
+                                 {cat.icon}
+                                 {cat.label}
+                               </span>
                             </button>
                           ))}
                        </div>
@@ -341,7 +374,7 @@ const FeedbackPage = () => {
                          </>
                        ) : (
                          <>
-                           SUBMIT FEEDBACK — EARN 🌴 5 POINTS
+                           SUBMIT FEEDBACK — EARN <Palmtree size={14} /> 5 POINTS
                          </>
                        )}
                      </button>

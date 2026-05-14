@@ -5,6 +5,7 @@ import {
   HiOutlinePencil, HiOutlineCheckCircle, HiOutlineHome,
   HiOutlineBriefcase, HiOutlineEllipsisHorizontal
 } from 'react-icons/hi2';
+import { MapPin } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useCustomer } from '../CustomerContext';
 import api from '../../api/axios';
@@ -154,9 +155,9 @@ const SavedAddresses = () => {
           );
         }) : (
           <div className="col-span-full bg-[#0C0A09] border border-white/5 p-20 rounded-[3rem] text-center space-y-6">
-             <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-white/10 text-4xl">
-                📍
-             </div>
+               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-[#F97316]">
+                  <MapPin size={40} />
+               </div>
              <div>
                 <h3 className="text-xl font-display font-bold text-white mb-2">No Saved Addresses</h3>
                 <p className="text-white/40 text-sm max-w-xs mx-auto font-sans">Save your delivery address for faster Kokrobite Oasis ordering</p>

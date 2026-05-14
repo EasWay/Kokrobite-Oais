@@ -5,7 +5,7 @@ import {
   HiOutlineHome, HiOutlineShoppingBag, HiOutlineClipboardDocumentList,
   HiOutlineStar, HiOutlineBell, HiOutlineMapPin, HiOutlineGift,
   HiOutlineUser, HiOutlineArrowRightOnRectangle, HiBars3, HiXMark,
-  HiOutlineChatBubbleLeftRight
+  HiOutlineChatBubbleLeftRight, HiOutlineArrowLeft
 } from 'react-icons/hi2';
 import { useCustomer } from './CustomerContext';
 import LoyaltyBadge from './components/LoyaltyBadge';
@@ -145,7 +145,7 @@ const CustomerLayout = () => {
 
         <div className="p-4 space-y-2 mt-auto border-t border-white/5">
           <Link to="/" className="flex items-center gap-3 px-4 py-3 text-white/40 hover:text-white transition-colors text-sm font-bold">
-            <span className="text-xl">←</span> Back to Website
+            <HiOutlineArrowLeft size={18} /> Back to Website
           </Link>
           <button 
             onClick={logout}

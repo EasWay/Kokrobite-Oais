@@ -5,6 +5,7 @@ import {
   HiOutlineCheckCircle, HiOutlineClock, HiOutlineChatBubbleLeftEllipsis,
   HiOutlineArrowRight, HiStar
 } from 'react-icons/hi2';
+import { Palmtree, Star } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import api from '../../api/axios';
 
@@ -52,7 +53,7 @@ const MyReviews = () => {
     setSubmitting(true);
     try {
       await api.post('/customers/reviews', formData);
-      toast.success('Review submitted! 🌴 You earned 10 Oasis Points');
+      toast.success('Review submitted! You earned 10 Oasis Points');
       setShowModal(false);
       fetchData();
     } catch (err) {
@@ -133,9 +134,9 @@ const MyReviews = () => {
           </motion.div>
         )) : (
           <div className="col-span-full bg-[#0C0A09] border border-white/5 p-24 rounded-[3rem] text-center space-y-6">
-             <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto text-white/10 text-4xl">
-                ⭐
-             </div>
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-[#F97316]">
+                 <Star size={40} />
+              </div>
              <div>
                 <h3 className="text-xl font-display font-bold text-white mb-2">No Reviews Yet</h3>
                 <p className="text-white/40 text-sm max-w-xs mx-auto font-sans">Share your Kokrobite Oasis experience with others</p>

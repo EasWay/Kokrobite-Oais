@@ -5,6 +5,7 @@ import {
   HiOutlineShoppingBag, HiOutlineArrowRight, HiOutlineClock, 
   HiOutlineStar, HiOutlineBanknotes, HiOutlineBell, HiOutlineArrowPath
 } from 'react-icons/hi2';
+import { Palmtree, Bell } from 'lucide-react';
 import { useCustomer } from '../CustomerContext';
 import OrderStatusBadge from '../components/OrderStatusBadge';
 import api from '../../api/axios';
@@ -109,8 +110,9 @@ const CustomerDashboard = () => {
         </div>
 
         <div className="relative z-10 max-w-xl">
-           <h1 className="text-4xl lg:text-5xl font-display font-bold tracking-tight text-white mb-4 leading-tight">
-             {getTimeGreeting()}, <span className="text-white">{customer?.name?.split(' ')[0]}!</span> 🌴
+           <h1 className="text-4xl lg:text-5xl font-display font-bold tracking-tight text-white mb-4 leading-tight flex items-center gap-4">
+             {getTimeGreeting()}, <span className="text-white">{customer?.name?.split(' ')[0]}!</span>
+             <Palmtree className="text-white/40" size={40} />
            </h1>
            <p className="text-white/80 font-medium mb-8 text-lg">What are you craving today?</p>
            <Link to="/portal/order" className="inline-flex items-center gap-3 bg-white text-[#1C0A00] px-8 py-4 rounded-2xl font-bold text-sm tracking-widest transition-all hover:scale-105 shadow-2xl shadow-black/20 group">
@@ -159,7 +161,10 @@ const CustomerDashboard = () => {
         <div className="flex flex-col gap-2 relative z-10">
           <div className="flex items-center gap-3 text-white mb-2">
             <HiOutlineStar size={28} className="text-yellow-400" />
-            <span className="font-display font-bold text-3xl tracking-tight">🌴 {customer?.loyaltyPoints} Oasis Points</span>
+            <span className="font-display font-bold text-3xl tracking-tight flex items-center gap-3">
+              <Palmtree size={32} className="text-yellow-400" />
+              {customer?.loyaltyPoints} Oasis Points
+            </span>
           </div>
           <p className="text-white/80 font-medium max-w-sm">Earn 1 point for every GHC 10 spent</p>
           
@@ -183,7 +188,9 @@ const CustomerDashboard = () => {
       {recentOrders.length > 0 && (
         <section className="space-y-4">
           <div className="flex justify-between items-end">
-            <h3 className="text-xl font-display font-bold tracking-tight text-white">Order Again 🌴</h3>
+            <h3 className="text-xl font-display font-bold tracking-tight text-white flex items-center gap-2">
+              Order Again <Palmtree size={20} className="text-[#F97316]" />
+            </h3>
             <Link to="/portal/order" className="text-[#F97316] text-xs font-bold hover:underline tracking-widest uppercase font-sans">Browse Menu</Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -221,7 +228,9 @@ const CustomerDashboard = () => {
         {/* Recent Orders List */}
         <section className="lg:col-span-2 space-y-6">
           <div className="flex justify-between items-end">
-            <h3 className="text-xl font-display font-bold tracking-tight text-white">Recent Orders 🛍️</h3>
+            <h3 className="text-xl font-display font-bold tracking-tight text-white flex items-center gap-2">
+              Recent Orders <HiOutlineShoppingBag size={20} className="text-[#F97316]" />
+            </h3>
             <Link to="/portal/orders" className="text-[#F97316] text-xs font-bold hover:underline tracking-widest uppercase font-sans">View All Orders</Link>
           </div>
 
@@ -263,7 +272,9 @@ const CustomerDashboard = () => {
         {/* Recent Notifications */}
         <section className="space-y-6">
           <div className="flex justify-between items-end">
-            <h3 className="text-xl font-display font-bold tracking-tight text-white">Notifications 🔔</h3>
+            <h3 className="text-xl font-display font-bold tracking-tight text-white flex items-center gap-2">
+              Notifications <HiOutlineBell size={20} className="text-[#F97316]" />
+            </h3>
             <Link to="/portal/notifications" className="text-[#F97316] text-xs font-bold hover:underline tracking-widest uppercase font-sans">View All</Link>
           </div>
 

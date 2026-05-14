@@ -166,7 +166,7 @@ const FeedbackManager = () => {
           Array(4).fill(0).map((_, i) => <div key={i} className="h-40 bg-white/5 rounded-[32px] animate-pulse" />)
         ) : feedbacks.length === 0 ? (
           <div className="bg-[#1a1a1a] border border-[#F97316]/[0.08] rounded-[40px] p-20 text-center">
-             <div className="text-6xl mb-6">💬</div>
+             <HiOutlineChatBubbleLeftRight size={48} className="text-[#F97316] mb-6 mx-auto" />
              <h3 className="text-2xl font-display font-bold text-white mb-2">No Feedback Yet</h3>
              <p className="text-white/40 text-sm">Customer feedback from KO Eats will appear here</p>
           </div>
@@ -329,7 +329,7 @@ const FeedbackManager = () => {
                              placeholder="Internal note or message to customer..."
                              className="w-full bg-[#1a1a1a] border border-[#F97316]/15 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-[#F97316] transition-all font-medium resize-none text-sm font-sans"
                            />
-                           <p className="text-[9px] text-white/20 ml-1 italic">* Your Kokrobite Oasis feedback has been resolved! Thank you 🌴</p>
+                           <p className="text-[9px] text-white/20 ml-1 italic">* Your Kokrobite Oasis feedback has been resolved! Thank you</p>
                         </div>
                      </div>
                      <button

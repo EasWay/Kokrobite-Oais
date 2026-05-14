@@ -1,4 +1,4 @@
-﻿import express from "express";
+import express from "express";
 const router = express.Router();
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -37,8 +37,8 @@ router.post("/login", async (req, res) => {
 
   res.cookie("ko_admin_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: cookieMaxAge
   });
 

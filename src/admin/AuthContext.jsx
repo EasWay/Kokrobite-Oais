@@ -11,11 +11,16 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function checkSession() {
+      const token = localStorage.getItem("ko_admin_token");
+      
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await api.get("/auth/me");
         setUser(res.data);
-        const storedToken = localStorage.getItem("ko_admin_token");
-        if (storedToken) setToken(storedToken);
       } catch (err) {
         setUser(null);
         setToken(null);

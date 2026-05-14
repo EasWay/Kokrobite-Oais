@@ -7,22 +7,29 @@ export const CustomerProvider = ({ children }) => {
   const [customer, setCustomer] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const checkSession = useCallback(async () => {
-    try {
-      const res = await api.get('/customers/auth/me');
-      setCustomer(res.data);
-    } catch (err) {
-      setCustomer(null);
-      localStorage.removeItem('ko_customer_token');
-      localStorage.removeItem('ko_customer_user');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
+    async function checkSession() {
+      const token = localStorage.getItem("ko_customer_token");
+      
+      // If no token at all — skip API call
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await api.get("/customers/auth/me");
+        setCustomer(res.data);
+      } catch (err) {
+        setCustomer(null);
+        localStorage.removeItem("ko_customer_token");
+        localStorage.removeItem("ko_customer_user");
+      } finally {
+        setLoading(false);
+      }
+    }
     checkSession();
-  }, [checkSession]);
+  }, []);
 
   const login = (newToken, customerData) => {
     localStorage.setItem('ko_customer_token', newToken);

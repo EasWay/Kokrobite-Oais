@@ -12,6 +12,13 @@ export function DeliveryProvider({ children }) {
   // AUTO LOGIN on app load
   useEffect(() => {
     async function checkSession() {
+      const token = localStorage.getItem("ko_driver_token")
+      
+      if (!token) {
+        setLoading(false)
+        return
+      }
+
       try {
         const res = await api.get("/drivers/auth/me")
         setDriver(res.data)

@@ -149,60 +149,56 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // @access  Public
 router.post("/google", async (req, res) => {
   try {
-    const { credential } = req.body;
-    
-    // Verify Google Token
-    const ticket = await client.verifyIdToken({
-        idToken: credential,
-        audience: process.env.GOOGLE_CLIENT_ID
-    });
-    const payload = ticket.getPayload();
-    
-    const { sub: googleId, email, name, picture: avatar } = payload;
+    const { googleId, email, name, avatar } = req.body;
 
-    let customer = await prisma.customer.findUnique({ where: { email } });
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    let customer = null;
     let isNewUser = false;
 
+    // Check if customer exists by email
+    customer = await prisma.customer.findUnique({ where: { email } });
+
     if (customer) {
+      // Update googleId if missing
       if (!customer.googleId) {
         customer = await prisma.customer.update({
           where: { id: customer.id },
-          data: { googleId, avatar: avatar || customer.avatar },
-          omit: { password: true }
-        });
-      } else {
-        customer = await prisma.customer.update({
-          where: { id: customer.id },
-          data: { lastLoginAt: new Date(), avatar: avatar || customer.avatar },
-          omit: { password: true }
+          data: { 
+            googleId: googleId || null,
+            avatar: avatar || customer.avatar
+          }
         });
       }
     } else {
+      // Create new customer
       isNewUser = true;
       customer = await prisma.customer.create({
         data: {
-          googleId,
+          name: name || "KO Eats Customer",
           email,
-          name,
-          avatar,
+          googleId: googleId || null,
+          avatar: avatar || null,
           isVerified: true,
           loyaltyPoints: 50,
-          lastLoginAt: new Date()
-        },
-        omit: { password: true }
+          isActive: true
+        }
       });
 
-      // Welcome rewards for new Google users
+      // Welcome notification
       await prisma.notification.create({
         data: {
           customerId: customer.id,
           type: "welcome",
-          title: "Welcome to Kokrobite Oasis! 🎉",
-          message: "You've earned 50 welcome loyalty points. Start ordering to earn more!",
+          title: "Welcome to KO Eats! 🌴",
+          message: "You have earned 50 welcome Oasis Points. Start ordering to earn more!",
           read: false
         }
       });
 
+      // Loyalty history
       await prisma.loyaltyHistory.create({
         data: {
           customerId: customer.id,
@@ -213,25 +209,47 @@ router.post("/google", async (req, res) => {
       });
     }
 
-    const cookieMaxAge = 30 * 24 * 60 * 60 * 1000;
+    // Update last login
+    await prisma.customer.update({
+      where: { id: customer.id },
+      data: { lastLoginAt: new Date() }
+    });
+
+    // Sign token
     const token = jwt.sign(
-      { id: customer.id, email: customer.email, role: "customer" },
+      { 
+        id: customer.id, 
+        email: customer.email,
+        role: "customer" 
+      },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
 
+    // Set cookie
     res.cookie("ko_customer_token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: cookieMaxAge,
+      maxAge: 30 * 24 * 60 * 60 * 1000,
       path: "/"
     });
 
-    res.json({ token, customer, isNewUser });
+    return res.json({
+      token,
+      customer: { 
+        ...customer, 
+        password: undefined 
+      },
+      isNewUser
+    });
+
   } catch (err) {
-    console.error("Google Auth Error:", err);
-    res.status(500).json({ message: "Google Authentication failed" });
+    console.error("Google auth error:", err.message);
+    return res.status(500).json({
+      message: "Google authentication failed",
+      error: err.message
+    });
   }
 });
 // @route   POST /api/customers/auth/logout

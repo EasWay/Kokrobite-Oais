@@ -52,11 +52,9 @@ const PORT = process.env.PORT || 5000
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:4173",
-  "https://kokrobite-oais.vercel.app",
+  "https://kokrobite-oasis.vercel.app",
   process.env.CLIENT_URL,
 ].filter(Boolean)
-
-const isVercel = (url) => url && (url.endsWith(".vercel.app") || url.includes("vercel.app"))
 
 const io = new Server(httpServer, {
   cors: {
@@ -65,22 +63,18 @@ const io = new Server(httpServer, {
   }
 })
 
-// Make io available in routes
 app.set("io", io)
 
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id)
-
   socket.on("join_order", (orderId) => {
     socket.join(`order_${orderId}`)
     console.log(`Joined room: order_${orderId}`)
   })
-
   socket.on("update_location", async (data) => {
     const { driverId, lat, lng } = data
     socket.broadcast.emit("driver_location_update", { driverId, lat, lng })
   })
-
   socket.on("disconnect", () => {
     console.log("Socket disconnected:", socket.id)
   })
@@ -92,32 +86,59 @@ app.use("/api/health", healthRoutes)
 // ─── MIDDLEWARE ───
 app.use(globalLimiter)
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-  crossOriginEmbedderPolicy: false
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://accounts.google.com",
+        "https://apis.google.com"
+      ],
+      frameSrc: [
+        "'self'",
+        "https://accounts.google.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://accounts.google.com",
+        "https://oauth2.googleapis.com",
+        process.env.CLIENT_URL,
+        "https://kokrobite-oasis.vercel.app"
+      ]
+    }
+  },
+  crossOriginResourcePolicy: { 
+    policy: "cross-origin" 
+  }
 }))
-
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl)
     if (!origin) return callback(null, true)
-    
-    if (allowedOrigins.includes(origin) || isVercel(origin)) {
+    if (allowedOrigins.some(allowed => 
+      origin === allowed || 
+      origin.endsWith(".vercel.app")
+    )) {
       return callback(null, true)
     }
-    
-    console.warn(`⚠️ CORS blocked: ${origin}`)
     callback(new Error(`CORS blocked: ${origin}`))
   },
   credentials: true,
-  methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
+  methods: ["GET","POST","PUT",
+            "PATCH","DELETE","OPTIONS"],
   allowedHeaders: [
     "Content-Type",
     "Authorization",
-    "x-app-version"
-  ]
+    "x-app-version",
+    "Cookie"
+  ],
+  exposedHeaders: ["Set-Cookie"]
 }))
+
+app.options("*", cors())
 
 app.use(morgan(
   process.env.NODE_ENV === "production" ? "combined" : "dev"

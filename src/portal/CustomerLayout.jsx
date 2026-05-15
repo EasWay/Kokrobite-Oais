@@ -5,7 +5,8 @@ import {
   HiOutlineHome, HiOutlineShoppingBag, HiOutlineClipboardDocumentList,
   HiOutlineStar, HiOutlineBell, HiOutlineGift,
   HiOutlineUser, HiOutlineArrowRightOnRectangle, HiBars3, HiXMark,
-  HiOutlineArrowLeft, HiOutlineArrowDownTray
+  HiOutlineArrowLeft, HiOutlineArrowDownTray, HiOutlineMapPin,
+  HiOutlineChatBubbleLeftRight
 } from 'react-icons/hi2';
 import { useCustomer } from './CustomerContext';
 import LoyaltyBadge from './components/LoyaltyBadge';
@@ -330,7 +331,7 @@ const CustomerLayout = () => {
                     Install KO Eats app
                   </button>
                 )}
-              </nav>
+                </div>
 
               <div className="pt-6 border-t border-border-subtle space-y-4">
                  <button

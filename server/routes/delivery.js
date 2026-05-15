@@ -112,6 +112,35 @@ router.post("/complete-order/:orderId", driverAuth, async (req, res) => {
   }
 })
 
+
+// ─── UPDATE DRIVER STATUS (Legacy route compatibility) ───
+router.patch("/status", driverAuth, async (req, res) => {
+  try {
+    const { status } = req.body
+    const validStatuses = ["online", "offline", "delivering"]
+
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" })
+    }
+
+    await prisma.driver.update({
+      where: { id: req.driver.id },
+      data: { status }
+    })
+
+    const io = getIO()
+    io.emit("driver_status_update", {
+      driverId: req.driver.id,
+      name: req.driver.name,
+      status
+    })
+
+    res.json({ status })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
 // ─── UPDATE LOCATION ───
 router.post("/update-location", driverAuth, async (req, res) => {
   try {

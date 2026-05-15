@@ -112,6 +112,7 @@ router.post("/", validate(orderSchema), async (req, res) => {
         estimatedTime: type === "delivery" ? "30-45 minutes" : "15-20 minutes",
         items: {
           create: items.map(i => ({
+            id: randomUUID(),
             menuItemId: i.menuItemId || null,
             name: i.name,
             price: parseFloat(i.price),

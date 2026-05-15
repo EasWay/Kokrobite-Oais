@@ -4,7 +4,7 @@ import { useDelivery } from "../DeliveryContext"
 import api from "../../api/axios"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
-  Wallet, Truck, TrendingUp, CheckCircle, MapPin, 
+  Wallet, Truck, TrendingUp, CheckCircle, MapPin, Circle, 
   ChevronRight, Box, Loader2, RefreshCcw 
 } from "lucide-react"
 import { toast } from "react-hot-toast"

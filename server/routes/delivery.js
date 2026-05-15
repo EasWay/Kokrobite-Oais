@@ -38,12 +38,15 @@ router.post("/accept-order/:orderId", driverAuth, async (req, res) => {
       where: { id: orderId },
       data: {
         driverId: driverId,
-        deliveryStatus: "ACCEPTED"
+        deliveryStatus: "ACCEPTED",
+        status: "confirmed"
       }
     })
 
     const io = getIO()
     io.to(`order_${orderId}`).emit("order_status", { status: "ACCEPTED", driverId: driverId })
+
+    await prisma.driver.update({ where: { id: driverId }, data: { status: "delivering" } })
 
     res.json(order)
   } catch (err) {
@@ -101,6 +104,8 @@ router.post("/complete-order/:orderId", driverAuth, async (req, res) => {
     const io = getIO()
     io.to(`order_${orderId}`).emit("order_status", { status: "DELIVERED" })
 
+    await prisma.driver.update({ where: { id: req.driver.id }, data: { status: "online" } })
+
     res.json(order)
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -115,7 +120,7 @@ router.post("/update-location", driverAuth, async (req, res) => {
 
     await prisma.driver.update({
       where: { id: driverId },
-      data: { currentLatitude: latitude, currentLongitude: longitude }
+      data: { currentLat: parseFloat(latitude), currentLng: parseFloat(longitude), lastLocationAt: new Date() }
     })
 
     const io = getIO()

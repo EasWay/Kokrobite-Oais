@@ -161,6 +161,7 @@ const CustomerRegister = () => {
                     <HiOutlineUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type="text" 
+                      autoComplete="name"
                       required
                       value={formData.name}
                       onChange={e => handleFieldChange('name', e.target.value)} onBlur={e => setErrors(prev => ({...prev, name: validateField('name', e.target.value)}))}
@@ -177,6 +178,7 @@ const CustomerRegister = () => {
                     <HiOutlineEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type="email" 
+                      autoComplete="email"
                       required
                       value={formData.email}
                       onChange={e => handleFieldChange('email', e.target.value)} onBlur={e => setErrors(prev => ({...prev, email: validateField('email', e.target.value)}))}
@@ -193,6 +195,7 @@ const CustomerRegister = () => {
                     <HiOutlinePhone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type="tel" 
+                      autoComplete="tel"
                       required
                       value={formData.phone}
                       onChange={e => handleFieldChange('phone', e.target.value)} onBlur={e => setErrors(prev => ({...prev, phone: validateField('phone', e.target.value)}))}
@@ -210,6 +213,7 @@ const CustomerRegister = () => {
                     <HiLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type={showPassword ? "text" : "password"} 
+                      autoComplete="new-password"
                       required
                       value={formData.password}
                       onChange={e => handleFieldChange('password', e.target.value)} onBlur={e => setErrors(prev => ({...prev, password: validateField('password', e.target.value)}))}
@@ -256,6 +260,7 @@ const CustomerRegister = () => {
                     <HiOutlineShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1C0A00]/30 group-focus-within:text-[#F97316] transition-colors" size={20} />
                     <input 
                       type={showPassword ? "text" : "password"} 
+                      autoComplete="new-password"
                       required
                       value={formData.confirmPassword}
                       onChange={e => { setFormData({...formData, confirmPassword: e.target.value}); if (errors.confirmPassword) setErrors(e2 => ({...e2, confirmPassword: ''})); }}

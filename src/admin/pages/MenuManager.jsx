@@ -185,13 +185,13 @@ const MenuManager = () => {
     });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-5">
       {/* Top Bar */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 sm:gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold text-white flex items-center gap-3">
-            Menu Manager
-            <span className="bg-white/5 text-white/40 px-3 py-1 rounded-full text-xs font-bold">{items.length} items</span>
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-white flex items-center gap-2">
+            Menu
+            <span className="bg-white/5 text-white/40 px-2 py-0.5 rounded-full text-[10px] font-bold">{items.length} items</span>
           </h1>
         </div>
 
@@ -251,11 +251,11 @@ const MenuManager = () => {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Skeleton height="350px" count={6} />
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-3">
+          <Skeleton height="220px" count={8} />
         </div>
       ) : viewMode === "grid" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-3">
           <AnimatePresence>
             {filteredItems.map((item) => (
               <motion.div
@@ -264,61 +264,59 @@ const MenuManager = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 key={item.id}
-                className="bg-[#1a1a1a] border border-white/5 rounded-2xl overflow-hidden group relative hover:border-[#F97316]/30 hover:shadow-[0_20px_40px_rgba(249,115,22,0.15)] transition-all duration-300"
+                className="bg-[#1a1a1a] border border-white/5 rounded-xl overflow-hidden group relative hover:border-[#F97316]/30 hover:shadow-[0_12px_28px_rgba(249,115,22,0.12)] transition-all duration-300"
               >
-                <div className="h-48 relative overflow-hidden bg-white/5 flex items-center justify-center">
+                <div className="aspect-[4/3] relative overflow-hidden bg-white/5 flex items-center justify-center">
                   {item.image ? (
                     <img src={getImgUrl(item.image)} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
                   ) : (
-                    <HiOutlinePhoto size={40} className="text-white/10" />
+                    <HiOutlinePhoto size={28} className="text-white/10" />
                   )}
-                  
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
-                    <button 
+
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 active:opacity-100 transition-all flex items-center justify-center gap-2">
+                    <button
                       onClick={() => openModal(item)}
-                      className="w-10 h-10 rounded-full bg-white text-[#F97316] flex items-center justify-center hover:scale-110 transition-all shadow-lg"
+                      className="w-8 h-8 rounded-full bg-white text-[#F97316] flex items-center justify-center hover:scale-110 transition-all shadow-lg"
+                      aria-label="Edit"
                     >
-                      <HiOutlinePencilSquare size={20} />
+                      <HiOutlinePencilSquare size={14} />
                     </button>
-                    <button 
+                    <button
                       onClick={() => { setDeletingId(item.id); setShowConfirm(true); }}
-                      className="w-10 h-10 rounded-full bg-[#EF4444] text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg"
+                      className="w-8 h-8 rounded-full bg-[#EF4444] text-white flex items-center justify-center hover:scale-110 transition-all shadow-lg"
+                      aria-label="Delete"
                     >
-                      <HiOutlineTrash size={20} />
+                      <HiOutlineTrash size={14} />
                     </button>
                   </div>
                 </div>
- 
-                <div className="p-6 space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <h3 className="font-bold text-white truncate max-w-[150px] font-sans">{item.name}</h3>
-                      <span className="inline-block bg-[#F97316]/15 text-[#F97316] text-[10px] font-bold uppercase px-2 py-0.5 rounded font-sans">
+
+                <div className="p-2.5 space-y-1.5">
+                  <div className="flex justify-between items-start gap-1.5">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold text-white text-[12px] truncate font-sans leading-tight">{item.name}</h3>
+                      <span className="inline-block bg-[#F97316]/15 text-[#F97316] text-[8px] font-bold uppercase px-1.5 py-0.5 rounded font-sans mt-0.5">
                         {item.category}
                       </span>
                     </div>
-                    <span className="text-[#F97316] font-bold font-sans">{item.price}</span>
+                    <span className="text-[#F97316] font-bold text-xs font-sans whitespace-nowrap">{item.price}</span>
                   </div>
- 
-                  <p className="text-xs text-white/40 line-clamp-2 h-8 font-sans">{item.description}</p>
- 
-                  <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold text-white/20 uppercase font-sans">Available</span>
-                      <button 
-                        onClick={() => handleToggle(item.id, 'available')}
-                        className={`w-10 h-5 rounded-full relative transition-all ${item.available ? 'bg-[#10B981]' : 'bg-white/15'}`}
-                      >
-                        <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${item.available ? 'right-1' : 'left-1'}`} />
-                      </button>
-                    </div>
- 
-                    <button 
+
+                  <div className="pt-1.5 border-t border-white/5 flex items-center justify-between">
+                    <button
+                      onClick={() => handleToggle(item.id, 'available')}
+                      className={`w-7 h-3.5 rounded-full relative transition-all ${item.available ? 'bg-[#10B981]' : 'bg-white/15'}`}
+                      aria-label={item.available ? 'Available' : 'Unavailable'}
+                    >
+                      <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full transition-all ${item.available ? 'right-0.5' : 'left-0.5'}`} />
+                    </button>
+
+                    <button
                       onClick={() => handleToggle(item.id, 'featured')}
-                      className={`flex items-center gap-1.5 text-[10px] font-bold uppercase transition-colors font-sans ${item.featured ? 'text-[#F97316]' : 'text-white/20 hover:text-white'}`}
+                      className={`transition-colors ${item.featured ? 'text-[#F97316]' : 'text-white/20 hover:text-white'}`}
+                      aria-label={item.featured ? 'Unfeature' : 'Feature'}
                     >
                       {item.featured ? <HiStar size={14} /> : <HiOutlineStar size={14} />}
-                      Featured
                     </button>
                   </div>
                 </div>
@@ -331,35 +329,35 @@ const MenuManager = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-white/5 text-left text-white/20 text-[10px] font-bold uppercase tracking-widest border-b border-white/5 font-sans">
-                <th className="px-8 py-4">Image</th>
-                <th className="px-8 py-4 cursor-pointer hover:text-white transition-colors" onClick={() => handleSort('name')}>
+                <th className="px-4 py-3">Image</th>
+                <th className="px-4 py-3 cursor-pointer hover:text-white transition-colors" onClick={() => handleSort('name')}>
                   <div className="flex items-center gap-2">Name <HiOutlineChevronUpDown /></div>
                 </th>
-                <th className="px-8 py-4">Category</th>
-                <th className="px-8 py-4 cursor-pointer hover:text-white transition-colors" onClick={() => handleSort('price')}>
+                <th className="px-4 py-3">Category</th>
+                <th className="px-4 py-3 cursor-pointer hover:text-white transition-colors" onClick={() => handleSort('price')}>
                   <div className="flex items-center gap-2">Price <HiOutlineChevronUpDown /></div>
                 </th>
-                <th className="px-8 py-4 text-center">Available</th>
-                <th className="px-8 py-4 text-center">Featured</th>
-                <th className="px-8 py-4 text-right">Actions</th>
+                <th className="px-4 py-3 text-center">Available</th>
+                <th className="px-4 py-3 text-center">Featured</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {filteredItems.map((item) => (
                 <tr key={item.id} className="hover:bg-white/[0.02] transition-colors group font-sans">
-                  <td className="px-8 py-4">
+                  <td className="px-4 py-3">
                     <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/5 flex items-center justify-center">
                       {item.image ? <img src={getImgUrl(item.image)} className="w-full h-full object-cover" alt="" /> : <HiOutlinePhoto size={20} className="text-white/10" />}
                     </div>
                   </td>
-                  <td className="px-8 py-4 font-bold text-white">{item.name}</td>
-                  <td className="px-8 py-4">
+                  <td className="px-4 py-3 font-bold text-white">{item.name}</td>
+                  <td className="px-4 py-3">
                     <span className="bg-[#F97316]/10 text-[#F97316] text-[10px] font-bold uppercase px-2 py-0.5 rounded border border-[#F97316]/20">
                       {item.category}
                     </span>
                   </td>
-                  <td className="px-8 py-4 text-[#F97316] font-bold">{item.price}</td>
-                  <td className="px-8 py-4">
+                  <td className="px-4 py-3 text-[#F97316] font-bold">{item.price}</td>
+                  <td className="px-4 py-3">
                     <div className="flex justify-center">
                       <button 
                         onClick={() => handleToggle(item.id, 'available')}
@@ -369,7 +367,7 @@ const MenuManager = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="px-8 py-4">
+                  <td className="px-4 py-3">
                     <div className="flex justify-center">
                       <button 
                         onClick={() => handleToggle(item.id, 'featured')}
@@ -379,7 +377,7 @@ const MenuManager = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="px-8 py-4">
+                  <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
                       <button onClick={() => openModal(item)} className="p-2 rounded-lg hover:bg-white/5 text-white/40 hover:text-white transition-all"><HiOutlinePencilSquare size={18} /></button>
                       <button onClick={() => { setDeletingId(item.id); setShowConfirm(true); }} className="p-2 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-[#EF4444] transition-all"><HiOutlineTrash size={18} /></button>

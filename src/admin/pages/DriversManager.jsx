@@ -139,52 +139,52 @@ export default function DriversManager() {
   }
  
   return (
-    <div className="space-y-8 pb-10">
-      
+    <div className="space-y-5 sm:space-y-6 pb-10">
+
       {/* ── TOP STATS ROW ── */}
-      <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-        <StatCard 
-          label="Total Drivers" 
-          value={stats?.total || 0} 
-          icon={<HiOutlineUsers size={20} />} 
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+        <StatCard
+          label="Total Drivers"
+          value={stats?.total || 0}
+          icon={<HiOutlineUsers size={16} />}
           color="white"
           circleColor="bg-[#F97316]/20 text-[#F97316]"
         />
-        <StatCard 
-          label="Online Now" 
-          value={stats?.online || 0} 
-          icon={<div className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />} 
+        <StatCard
+          label="Online Now"
+          value={stats?.online || 0}
+          icon={<div className="w-2 h-2 rounded-full bg-[#10B981]" />}
           color="#10B981"
           circleColor="bg-[#10B981]/10 text-[#10B981]"
         />
-        <StatCard 
-          label="Delivering" 
-          value={stats?.delivering || 0} 
-          icon={<HiOutlineTruck size={20} className="relative z-10" />} 
+        <StatCard
+          label="Delivering"
+          value={stats?.delivering || 0}
+          icon={<HiOutlineTruck size={16} className="relative z-10" />}
           color="#F97316"
           circleColor="bg-[#F97316]/10 text-[#F97316]"
           pulse
         />
-        <StatCard 
-          label="Pending Approval" 
-          value={stats?.pending || 0} 
-          icon={<HiOutlineClock size={20} />} 
+        <StatCard
+          label="Pending Approval"
+          value={stats?.pending || 0}
+          icon={<HiOutlineClock size={16} />}
           color="#F59E0B"
           circleColor="bg-[#F59E0B]/10 text-[#F59E0B]"
           badge={stats?.pending > 0}
         />
-        <StatCard 
-          label="Total Approved" 
-          value={stats?.approved || 0} 
-          icon={<HiOutlineCheckCircle size={20} />} 
+        <StatCard
+          label="Total Approved"
+          value={stats?.approved || 0}
+          icon={<HiOutlineCheckCircle size={16} />}
           color="#10B981"
           circleColor="bg-[#10B981]/10 text-[#10B981]"
         />
       </div>
- 
+
       {/* ── FILTER BAR ── */}
-      <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full lg:w-auto flex-1">
+      <div className="flex flex-col lg:flex-row justify-between items-center gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 w-full lg:w-auto flex-1">
           <div className="relative">
             <HiOutlineMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
             <input 
@@ -233,21 +233,87 @@ export default function DriversManager() {
         </button>
       </div>
  
-      {/* ── DRIVERS TABLE ── */}
-      <div className="bg-[#111111] rounded-3xl border border-white/5 overflow-hidden shadow-2xl">
+      {/* ── DRIVERS: mobile grid ── */}
+      <div className="md:hidden">
+        {loading ? (
+          <div className="bg-[#111111] rounded-2xl border border-white/5 p-8 text-center">
+            <div className="w-8 h-8 border-2 border-white/10 border-t-[#F97316] rounded-full animate-spin mx-auto" />
+          </div>
+        ) : drivers.length === 0 ? (
+          <div className="bg-[#111111] rounded-2xl border border-white/5 p-6 text-center">
+            <HiOutlineTruck size={36} className="text-white/20 mx-auto mb-2" />
+            <p className="text-white font-bold text-sm">No riders yet</p>
+            <p className="text-white/40 text-xs mt-1 mb-3">Add your first KO Rider</p>
+            <button onClick={() => setShowAddModal(true)} className="text-[#F97316] font-bold text-xs">+ Add rider</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {drivers.map((driver) => (
+              <div
+                key={driver.id}
+                onClick={() => openDetails(driver)}
+                className="bg-[#111111] rounded-xl border border-white/5 p-3 active:bg-[#F97316]/[0.04] transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#F97316] to-[#FB923C] flex items-center justify-center text-white font-bold shrink-0">
+                    {driver.name.charAt(0)}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-bold text-white text-[13px] truncate">{driver.name}</p>
+                    <p className="text-[10px] text-white/40 truncate">{driver.phone}</p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <div className={`w-1.5 h-1.5 rounded-full ${
+                      driver.status === 'online' ? 'bg-[#10B981]' :
+                      driver.status === 'delivering' ? 'bg-[#F97316] animate-pulse' : 'bg-white/20'
+                    }`} />
+                    <span className={`text-[9px] uppercase font-bold ${
+                      driver.status === 'online' ? 'text-[#10B981]' :
+                      driver.status === 'delivering' ? 'text-[#F97316]' : 'text-white/30'
+                    }`}>{driver.status}</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-4 gap-1.5 text-center">
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Trips</p>
+                    <p className="text-xs font-bold text-white">{driver._count.deliveries}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Rating</p>
+                    <p className="text-xs font-bold text-white">★ {driver.rating.toFixed(1)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Earned</p>
+                    <p className="text-xs font-bold text-[#10B981]">{driver.totalEarnings}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Status</p>
+                    <p className={`text-[10px] font-bold ${driver.isApproved ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
+                      {driver.isApproved ? '✓' : '⏳'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── DRIVERS TABLE (desktop) ── */}
+      <div className="hidden md:block bg-[#111111] rounded-3xl border border-white/5 overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-white/[0.02]">
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Driver</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Phone</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Type</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Status</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Deliveries</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Rating</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40">Earnings</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40 text-center">Approved</th>
-                <th className="px-6 py-5 text-[10px] font-bold uppercase tracking-widest text-white/40 text-right">Actions</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Driver</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Phone</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Type</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Status</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Deliveries</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Rating</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Earnings</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40 text-center">Approved</th>
+                <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -281,7 +347,7 @@ export default function DriversManager() {
                     key={driver.id} 
                     className={`hover:bg-[#F97316]/[0.04] transition-colors group ${idx % 2 !== 0 ? 'bg-white/[0.01]' : ''}`}
                   >
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#F97316] to-[#FB923C] flex items-center justify-center text-white font-bold shadow-lg">
                           {driver.name.charAt(0)}
@@ -292,10 +358,10 @@ export default function DriversManager() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5 text-white/60 text-sm font-sans">
+                    <td className="px-4 py-3 text-white/60 text-sm font-sans">
                       {driver.phone}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter ${
                         driver.type === 'INHOUSE' 
                           ? 'bg-blue-500/15 text-blue-500' 
@@ -304,7 +370,7 @@ export default function DriversManager() {
                         {driver.type === 'INHOUSE' ? 'In-House' : 'Freelance'}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className={`w-2 h-2 rounded-full ${
                           driver.status === 'online' ? 'bg-[#10B981]' : 
@@ -320,10 +386,10 @@ export default function DriversManager() {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <p className="text-sm font-bold text-white">{driver._count.deliveries} trips</p>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
                         <p className="text-sm text-white font-bold flex items-center gap-1">
                           <HiOutlineStar className="text-orange-400" /> {driver.rating.toFixed(1)}
@@ -331,10 +397,10 @@ export default function DriversManager() {
                         <p className="text-[10px] text-white/30 font-sans">({driver._count.ratings})</p>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <p className="text-[#10B981] font-semibold text-sm">GHC {driver.totalEarnings}</p>
                     </td>
-                    <td className="px-6 py-5 text-center">
+                    <td className="px-4 py-3 text-center">
                       <span className={`text-[10px] font-bold px-3 py-1 rounded-full whitespace-nowrap ${
                         driver.isApproved 
                           ? 'bg-[#10B981]/15 text-[#10B981]' 
@@ -343,7 +409,7 @@ export default function DriversManager() {
                         {driver.isApproved ? 'Approved' : 'Pending'}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-4 py-3">
                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => openDetails(driver)}
@@ -506,21 +572,21 @@ export default function DriversManager() {
                         <table className="w-full text-left">
                           <thead className="bg-white/5">
                             <tr>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Order</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Customer</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Address</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Amount</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Date</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Order</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Customer</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Address</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Amount</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Date</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/5">
                             {selectedDriver.deliveries?.map(del => (
                               <tr key={del.id} className="hover:bg-white/[0.02]">
-                                <td className="px-6 py-4 text-sm text-white font-bold">{del.order.orderNumber}</td>
-                                <td className="px-6 py-4 text-sm text-white/80">{del.order.customer?.name}</td>
-                                <td className="px-6 py-4 text-sm text-white/40 truncate max-w-xs">{del.order.deliveryAddress}</td>
-                                <td className="px-6 py-4 text-sm text-[#10B981] font-bold">GHC {del.order.totalAmount}</td>
-                                <td className="px-6 py-4 text-xs text-white/30">{new Date(del.createdAt).toLocaleDateString()}</td>
+                                <td className="px-4 py-3 text-sm text-white font-bold">{del.order.orderNumber}</td>
+                                <td className="px-4 py-3 text-sm text-white/80">{del.order.customer?.name}</td>
+                                <td className="px-4 py-3 text-sm text-white/40 truncate max-w-xs">{del.order.deliveryAddress}</td>
+                                <td className="px-4 py-3 text-sm text-[#10B981] font-bold">GHC {del.order.totalAmount}</td>
+                                <td className="px-4 py-3 text-xs text-white/30">{new Date(del.createdAt).toLocaleDateString()}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -571,17 +637,17 @@ export default function DriversManager() {
                         <table className="w-full text-left">
                           <thead className="bg-white/5">
                             <tr>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Description</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40">Amount</th>
-                              <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/40 text-right">Date</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Description</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40">Amount</th>
+                              <th className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-white/40 text-right">Date</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/5">
                             {selectedDriver.payouts?.map(p => (
                               <tr key={p.id} className="hover:bg-white/[0.02]">
-                                <td className="px-6 py-4 text-sm text-white/80">{p.description}</td>
-                                <td className="px-6 py-4 text-sm text-[#10B981] font-bold">GHC {p.amount}</td>
-                                <td className="px-6 py-4 text-xs text-white/30 text-right">{new Date(p.createdAt).toLocaleDateString()}</td>
+                                <td className="px-4 py-3 text-sm text-white/80">{p.description}</td>
+                                <td className="px-4 py-3 text-sm text-[#10B981] font-bold">GHC {p.amount}</td>
+                                <td className="px-4 py-3 text-xs text-white/30 text-right">{new Date(p.createdAt).toLocaleDateString()}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -730,17 +796,17 @@ export default function DriversManager() {
 
 function StatCard({ label, value, icon, color, circleColor, pulse, badge }) {
   return (
-    <div className="min-w-[240px] flex-1 bg-[#1a1a1a] border border-[#F97316]/[0.08] rounded-2xl p-6 space-y-4 shadow-xl">
-      <div className={`w-10 h-10 rounded-xl ${circleColor} flex items-center justify-center relative`}>
-        {pulse && <div className="absolute inset-0 bg-[#F97316] rounded-xl animate-ping opacity-20" />}
+    <div className="bg-[#1a1a1a] border border-[#F97316]/[0.08] rounded-xl p-2.5 sm:p-3 flex items-center gap-2.5 shadow-lg">
+      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg ${circleColor} flex items-center justify-center relative shrink-0`}>
+        {pulse && <div className="absolute inset-0 bg-[#F97316] rounded-lg animate-ping opacity-20" />}
         {icon}
         {badge && (
-          <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F97316] rounded-full ring-2 ring-[#1a1a1a]" />
+          <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#F97316] rounded-full ring-2 ring-[#1a1a1a]" />
         )}
       </div>
-      <div>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">{label}</p>
-        <p className="text-3xl font-display font-bold" style={{ color }}>{value}</p>
+      <div className="min-w-0">
+        <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 truncate">{label}</p>
+        <p className="text-base sm:text-lg font-display font-bold leading-none" style={{ color }}>{value}</p>
       </div>
     </div>
   )
@@ -748,12 +814,12 @@ function StatCard({ label, value, icon, color, circleColor, pulse, badge }) {
 
 function InfoBox({ label, value, icon, color = "text-white" }) {
   return (
-    <div className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-3">
-      <div className="flex items-center gap-2 text-white/30">
+    <div className="bg-white/5 border border-white/5 rounded-xl p-3 space-y-1.5">
+      <div className="flex items-center gap-1.5 text-white/30">
         {icon}
         <p className="text-[9px] font-bold uppercase tracking-widest">{label}</p>
       </div>
-      <p className={`text-lg font-bold ${color}`}>{value}</p>
+      <p className={`text-sm sm:text-base font-bold ${color}`}>{value}</p>
     </div>
   )
 }

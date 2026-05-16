@@ -325,37 +325,107 @@ const OrdersManager = () => {
       </div>
 
       {/* Stats Strip */}
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3">
         {STATUSES.map(status => (
-          <div key={status} className="bg-[#1a1a1a] border border-[#F97316]/15 rounded-xl px-4 py-3 flex items-center gap-3 min-w-[140px]">
-            <div className={`w-2 h-2 rounded-full ${
-              status === 'pending' ? 'bg-[#F59E0B]' : 
+          <div key={status} className="bg-[#1a1a1a] border border-[#F97316]/15 rounded-xl px-2.5 py-2 sm:px-3 sm:py-2.5 flex items-center gap-2">
+            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+              status === 'pending' ? 'bg-[#F59E0B]' :
               status === 'confirmed' ? 'bg-[#3B82F6]' :
               status === 'preparing' ? 'bg-[#F97316]' :
+              status === 'ready' ? 'bg-[#A78BFA]' :
               status === 'delivered' ? 'bg-[#10B981]' : 'bg-[#EF4444]'
             }`} />
-            <div className="flex flex-col">
-               <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{status}</span>
-               <span className="text-lg font-bold text-white font-display">{stats[status]}</span>
+            <div className="flex flex-col min-w-0">
+               <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest truncate">{status}</span>
+               <span className="text-sm sm:text-base font-bold text-white font-display leading-none">{stats[status]}</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Table */}
-      <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl overflow-hidden">
+      {/* Mobile: card grid */}
+      <div className="md:hidden">
+        {loading ? (
+          <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-4"><Skeleton count={4} height="60px" /></div>
+        ) : filteredOrders.length === 0 ? (
+          <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-8 text-center">
+            <HiOutlineShoppingBag size={36} className="text-[#F97316] mb-3 mx-auto" />
+            <h3 className="text-base font-display font-bold text-white mb-1">No orders</h3>
+            <p className="text-white/40 text-xs mb-4">Orders will appear here.</p>
+            {activeTab === 'WhatsApp' && (
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="bg-[#F97316] text-white px-5 py-2 rounded-lg font-bold text-xs flex items-center gap-2 mx-auto"
+              >
+                <HiOutlinePlus size={14} /> Add order
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {filteredOrders.map((order, idx) => (
+              <div
+                key={order.id}
+                onClick={() => { setSelectedOrder(order); setShowDetail(true); }}
+                className="bg-[#1a1a1a] border border-white/10 rounded-xl p-3 active:bg-white/[0.03] active:scale-[0.99] transition-all cursor-pointer"
+              >
+                <div className="flex justify-between items-start gap-2 mb-1.5">
+                  <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                    {activeTab === 'WhatsApp' ? getSourceIcon(order.source) : <HiOutlineGlobeAlt className="text-orange-400 shrink-0" size={14} />}
+                    <p className="text-[13px] font-bold text-white truncate">
+                      {activeTab === 'WhatsApp' ? order.customerName : order.customer?.name}
+                    </p>
+                  </div>
+                  <p className="text-sm font-bold text-[#F97316] shrink-0">₵{order.totalAmount}</p>
+                </div>
+                <p className="text-[10px] text-white/40 mb-2 truncate">
+                  {activeTab === 'WhatsApp' ? order.customerPhone : order.customer?.phone}
+                  {' · '}
+                  {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                </p>
+                <div className="flex justify-between items-center gap-2">
+                  <span className="text-[10px] text-white/50 truncate">
+                    {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
+                  </span>
+                  <div className="flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className={`px-2 py-1 rounded-full text-[9px] font-bold uppercase outline-none cursor-pointer ${getStatusStyle(order.status)}`}
+                    >
+                      {allowedAdminTransitions(order, activeTab === 'WhatsApp').map(s => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => { setDeletingId(order.id); setShowConfirm(true); }}
+                      className="p-1.5 rounded-lg text-white/30 active:text-red-500 active:bg-red-500/10 transition-all"
+                      aria-label="Delete"
+                    >
+                      <HiOutlineTrash size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: Table */}
+      <div className="hidden md:block bg-[#1a1a1a] border border-white/10 rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="bg-white/5 text-left text-white/40 text-[10px] font-bold uppercase tracking-widest border-b border-white/5">
-                <th className="px-8 py-4 w-12">#</th>
-                <th className="px-8 py-4">Customer</th>
-                <th className="px-8 py-4">Branch</th>
-                <th className="px-8 py-4">Items Summary</th>
-                <th className="px-8 py-4">Total</th>
-                <th className="px-8 py-4">Status</th>
-                <th className="px-8 py-4">Date</th>
-                <th className="px-8 py-4 text-right">Actions</th>
+                <th className="px-4 py-3 w-10">#</th>
+                <th className="px-4 py-3">Customer</th>
+                <th className="px-4 py-3">Branch</th>
+                <th className="px-4 py-3">Items</th>
+                <th className="px-4 py-3">Total</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Date</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -378,10 +448,10 @@ const OrdersManager = () => {
               ) : (
                 filteredOrders.map((order, idx) => (
                   <tr key={order.id} className="hover:bg-white/[0.03] transition-colors group cursor-pointer" onClick={() => { setSelectedOrder(order); setShowDetail(true); }}>
-                    <td className="px-8 py-5 text-xs text-white/40 font-bold">
+                    <td className="px-4 py-3 text-xs text-white/40 font-bold">
                       {activeTab === 'WhatsApp' ? (idx + 1) : order.orderNumber.split('-').pop()}
                     </td>
-                    <td className="px-8 py-5">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         {activeTab === 'WhatsApp' ? getSourceIcon(order.source) : <HiOutlineGlobeAlt className="text-orange-400" />}
                         <p className="text-sm font-bold text-white">
@@ -392,7 +462,7 @@ const OrdersManager = () => {
                         {activeTab === 'WhatsApp' ? order.customerPhone : order.customer?.phone}
                       </p>
                     </td>
-                    <td className="px-8 py-5 text-xs text-white/60">
+                    <td className="px-4 py-3 text-xs text-white/60">
                       {activeTab === 'WhatsApp' ? order.branch : (order.branch || 'Delivery')}
                       {activeTab === 'Portal' && (
                         <div className={`mt-1 text-[10px] uppercase font-bold ${order.type === 'delivery' ? 'text-blue-400' : 'text-orange-400'}`}>
@@ -400,11 +470,11 @@ const OrdersManager = () => {
                         </div>
                       )}
                     </td>
-                    <td className="px-8 py-5 text-[10px] text-white/40 font-medium max-w-[200px] truncate">
+                    <td className="px-4 py-3 text-[10px] text-white/40 font-medium max-w-[200px] truncate">
                       {order.items.length} {order.items.length === 1 ? 'item' : 'items'} — {order.items.map(i => i.name).join(', ')}
                     </td>
-                    <td className="px-8 py-5 text-sm font-bold text-[#F97316]">₵{order.totalAmount}</td>
-                    <td className="px-8 py-5" onClick={e => e.stopPropagation()}>
+                    <td className="px-4 py-3 text-sm font-bold text-[#F97316]">₵{order.totalAmount}</td>
+                    <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
                        <select
                          value={order.status}
                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
@@ -418,10 +488,10 @@ const OrdersManager = () => {
                          <p className="text-[9px] text-white/30 mt-1 uppercase tracking-widest">Driver in transit</p>
                        )}
                     </td>
-                    <td className="px-8 py-5 text-[10px] text-white/40 font-bold uppercase tracking-widest whitespace-nowrap">
+                    <td className="px-4 py-3 text-[10px] text-white/40 font-bold uppercase tracking-widest whitespace-nowrap">
                       {new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}, {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </td>
-                    <td className="px-8 py-5 text-right" onClick={e => e.stopPropagation()}>
+                    <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                       <div className="flex justify-end gap-2">
                         <button onClick={() => { setSelectedOrder(order); setShowDetail(true); }} className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-all"><HiOutlineEye size={18} /></button>
                         <button onClick={() => { setDeletingId(order.id); setShowConfirm(true); }} className="p-2 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-red-500 transition-all"><HiOutlineTrash size={18} /></button>

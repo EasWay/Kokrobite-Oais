@@ -142,59 +142,59 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-5 sm:space-y-7 lg:space-y-10">
       {/* Row 1 - Stats */}
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-5"
       >
         <motion.div variants={itemVariants}>
-          <StatCard 
-            title="Total Revenue" 
-            value={formatCurrency(totalRevenue)} 
-            icon={<HiOutlineBanknotes size={24} />}
+          <StatCard
+            title="Total Revenue"
+            value={formatCurrency(totalRevenue)}
+            icon={<HiOutlineBanknotes size={20} />}
             trend={revenueToday > 0 ? `₵${revenueToday} today` : "No sales today"}
             trendUp={revenueToday > 0}
             iconColor="#F97316"
           />
         </motion.div>
         <motion.div variants={itemVariants}>
-          <StatCard 
-            title="Total Orders" 
-            value={totalOrders} 
-            icon={<HiOutlineShoppingBag size={24} />}
+          <StatCard
+            title="Total Orders"
+            value={totalOrders}
+            icon={<HiOutlineShoppingBag size={20} />}
             trend={ordersToday > 0 ? `${ordersToday} new today` : "No orders today"}
             trendUp={ordersToday > 0}
             iconColor="#FB923C"
           />
         </motion.div>
         <motion.div variants={itemVariants}>
-          <StatCard 
-            title="Average Rating" 
-            value={`${averageRating}★`} 
-            icon={<HiOutlineStar size={24} />}
+          <StatCard
+            title="Average Rating"
+            value={`${averageRating}★`}
+            icon={<HiOutlineStar size={20} />}
             trend={`${totalReviews} reviews`}
             trendUp={true}
             iconColor="#F59E0B"
           />
         </motion.div>
         <motion.div variants={itemVariants}>
-          <StatCard 
-            title="Menu Items" 
-            value={totalMenuItems} 
-            icon={<HiOutlineRectangleGroup size={24} />}
+          <StatCard
+            title="Menu Items"
+            value={totalMenuItems}
+            icon={<HiOutlineRectangleGroup size={20} />}
             trend="All available"
             trendUp={true}
             iconColor="#1C0A00"
           />
         </motion.div>
         <motion.div variants={itemVariants}>
-          <StatCard 
-            title="Total Customers" 
-            value={totalCustomers} 
-            icon={<HiOutlineUser size={24} />}
+          <StatCard
+            title="Total Customers"
+            value={totalCustomers}
+            icon={<HiOutlineUser size={20} />}
             trend={newCustomersToday > 0 ? `${newCustomersToday} new today` : "No new today"}
             trendUp={newCustomersToday > 0}
             iconColor="#F97316"
@@ -203,23 +203,23 @@ const Dashboard = () => {
       </motion.div>
 
       {/* Row 2 - Revenue Chart */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-[#1a1a1a] border border-[#F97316]/10 rounded-2xl p-8"
+        className="bg-[#1a1a1a] border border-[#F97316]/10 rounded-2xl p-4 sm:p-6 lg:p-8"
       >
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
           <div>
-            <h3 className="text-xl font-bold text-white mb-1">Revenue Overview</h3>
-            <p className="text-white/40 text-xs font-medium uppercase tracking-widest">Performance metrics for last {chartRange === "7D" ? '7 days' : '30 days'}</p>
+            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-0.5">Revenue Overview</h3>
+            <p className="text-white/40 text-[10px] sm:text-xs font-medium uppercase tracking-widest">Last {chartRange === "7D" ? '7 days' : '30 days'}</p>
           </div>
-          <div className="flex bg-white/5 p-1 rounded-xl">
+          <div className="flex bg-white/5 p-0.5 sm:p-1 rounded-xl self-stretch sm:self-auto">
             {["7D", "30D"].map(range => (
               <button
                 key={range}
                 onClick={() => setChartRange(range)}
-                className={`px-6 py-2 rounded-lg text-xs font-bold transition-all ${chartRange === range ? 'bg-[#F97316] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 sm:flex-none px-4 sm:px-5 py-1.5 rounded-lg text-[11px] font-bold transition-all ${chartRange === range ? 'bg-[#F97316] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
               >
                 {range}
               </button>
@@ -292,56 +292,88 @@ const Dashboard = () => {
       </motion.div>
 
       {/* Row 3 - Recent Orders & Top Items */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <motion.div 
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 sm:gap-5 lg:gap-7">
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
           className="lg:col-span-3 bg-[#1a1a1a] border border-white/5 rounded-2xl overflow-hidden"
         >
-          <div className="p-8 border-b border-white/5 flex justify-between items-center">
-            <h3 className="text-xl font-display font-bold text-white uppercase tracking-tight">Recent Orders</h3>
-            <Link to="/admin/orders" className="text-[#F97316] text-xs font-bold uppercase tracking-[0.2em] hover:underline">View All Orders →</Link>
+          <div className="p-4 sm:p-5 lg:p-6 border-b border-white/5 flex justify-between items-center">
+            <h3 className="text-sm sm:text-base lg:text-lg font-display font-bold text-white uppercase tracking-tight">Recent Orders</h3>
+            <Link to="/admin/orders" className="text-[#F97316] text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] hover:underline">View all →</Link>
           </div>
-          <div className="overflow-x-auto">
+
+          {/* Mobile: card grid */}
+          <div className="sm:hidden divide-y divide-white/5">
+            {recentOrders.length === 0 ? (
+              <div className="p-8 text-center text-white/20">
+                <div className="mb-2 flex justify-center"><HiOutlineShoppingBag size={36} /></div>
+                <p className="text-xs">No orders yet</p>
+              </div>
+            ) : (
+              recentOrders.map((order) => (
+                <div key={order.id} className="p-3 active:bg-[#F97316]/[0.05] transition-colors">
+                  <div className="flex justify-between items-start gap-2 mb-1">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[13px] font-bold text-white truncate">{order.customerName}</p>
+                      <p className="text-[10px] text-white/40 truncate">{order.branch} · {relativeTime(order.createdAt)}</p>
+                    </div>
+                    <p className="text-sm font-bold text-[#F97316] shrink-0">₵{order.totalAmount}</p>
+                  </div>
+                  <div className="flex justify-between items-center mt-1.5">
+                    <span className="text-[10px] text-white/50">
+                      {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase ${statusBadges[order.status]}`}>
+                      {order.status}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Tablet/desktop: table */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="bg-white/5 text-left text-white/40 text-[10px] font-bold uppercase tracking-[0.2em]">
-                  <th className="px-8 py-4">Customer</th>
-                  <th className="px-8 py-4">Items</th>
-                  <th className="px-8 py-4">Total</th>
-                  <th className="px-8 py-4">Status</th>
-                  <th className="px-8 py-4">Time</th>
+                  <th className="px-5 py-3">Customer</th>
+                  <th className="px-5 py-3">Items</th>
+                  <th className="px-5 py-3">Total</th>
+                  <th className="px-5 py-3">Status</th>
+                  <th className="px-5 py-3">Time</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
                 {recentOrders.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="p-12 text-center text-white/20">
-                      <div className="mb-2 flex justify-center"><HiOutlineShoppingBag size={48} /></div>
+                    <td colSpan="5" className="p-10 text-center text-white/20">
+                      <div className="mb-2 flex justify-center"><HiOutlineShoppingBag size={40} /></div>
                       No orders yet
                     </td>
                   </tr>
                 ) : (
                   recentOrders.map((order) => (
                     <tr key={order.id} className="hover:bg-[#F97316]/[0.04] transition-colors group">
-                      <td className="px-8 py-5">
-                        <p className="text-sm font-bold text-white">{order.customerName}</p>
+                      <td className="px-5 py-3">
+                        <p className="text-xs font-bold text-white">{order.customerName}</p>
                         <p className="text-[10px] text-white/40">{order.branch}</p>
                       </td>
-                      <td className="px-8 py-5 text-xs text-white/60 font-medium">
+                      <td className="px-5 py-3 text-[11px] text-white/60 font-medium">
                         {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
                         <span className="block text-[10px] text-white/20 truncate max-w-[120px]">{order.items[0]?.menuItem}...</span>
                       </td>
-                      <td className="px-8 py-5 text-sm font-bold text-[#F97316]">
+                      <td className="px-5 py-3 text-xs font-bold text-[#F97316]">
                         ₵{order.totalAmount}
                       </td>
-                      <td className="px-8 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${statusBadges[order.status]}`}>
+                      <td className="px-5 py-3">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${statusBadges[order.status]}`}>
                           {order.status}
                         </span>
                       </td>
-                      <td className="px-8 py-5 text-xs text-white/40 font-medium">
+                      <td className="px-5 py-3 text-[11px] text-white/40 font-medium">
                         {relativeTime(order.createdAt)}
                       </td>
                     </tr>
@@ -352,13 +384,13 @@ const Dashboard = () => {
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
-          className="lg:col-span-2 bg-[#1a1a1a] border border-white/5 rounded-2xl p-8"
+          className="lg:col-span-2 bg-[#1a1a1a] border border-white/5 rounded-2xl p-4 sm:p-5 lg:p-6"
         >
-          <h3 className="text-xl font-bold text-white mb-8">Top Selling Items</h3>
+          <h3 className="text-sm sm:text-base lg:text-lg font-bold text-white mb-4 sm:mb-5">Top Selling Items</h3>
           <div className="space-y-8">
             {topItems.map((item, idx) => {
               const maxCount = topItems[0].count;

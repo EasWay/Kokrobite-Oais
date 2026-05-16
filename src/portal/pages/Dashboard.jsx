@@ -9,14 +9,14 @@ import OrderStatusBadge from '../components/OrderStatusBadge';
 import api from '../../api/axios';
 
 const StatCard = ({ title, value, icon: Icon, trend, trendColor }) => (
-  <div className="p-6 rounded-2xl relative overflow-hidden bg-surface border border-border-subtle">
-    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-brand-primary/15 text-brand-primary">
-      <Icon size={24} aria-hidden="true" />
+  <div className="p-3 sm:p-4 rounded-2xl relative overflow-hidden bg-surface border border-border-subtle">
+    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-2 bg-brand-primary/15 text-brand-primary">
+      <Icon size={18} aria-hidden="true" />
     </div>
-    <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1 text-text-muted">{title}</p>
-    <h3 className="text-3xl font-black text-text-primary tracking-tight">{value}</h3>
+    <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.18em] mb-0.5 text-text-muted truncate">{title}</p>
+    <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-text-primary tracking-tight">{value}</h3>
     {trend && (
-      <p className={`mt-3 text-[10px] font-bold uppercase tracking-widest ${trendColor}`}>
+      <p className={`mt-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest ${trendColor} truncate hidden sm:block`}>
         {trend}
       </p>
     )}
@@ -100,18 +100,18 @@ const CustomerDashboard = () => {
   const pointsToNext = 100 - (points % 100);
 
   return (
-    <div className="space-y-10 pb-10">
+    <div className="space-y-5 sm:space-y-7 pb-8">
 
       {/* Welcome */}
-      <section className="rounded-3xl p-8 lg:p-10 bg-brand-primary border border-brand-primary/20">
-        <p className="text-text-primary/70 text-xs font-bold uppercase tracking-[0.2em] mb-2">{getTimeGreeting()}</p>
-        <h1 className="text-4xl lg:text-5xl font-display font-bold tracking-tight text-text-primary mb-3 leading-tight">
+      <section className="rounded-2xl p-4 sm:p-6 lg:p-8 bg-brand-primary border border-brand-primary/20">
+        <p className="text-text-primary/70 text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] mb-1.5">{getTimeGreeting()}</p>
+        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-display font-bold tracking-tight text-text-primary mb-2 leading-tight">
           Hello, {firstName}.
         </h1>
-        <p className="text-text-primary/80 font-medium mb-6 text-base md:text-lg">What are you craving today?</p>
+        <p className="text-text-primary/80 font-medium mb-4 text-sm sm:text-base md:text-lg">What are you craving today?</p>
         <Link
           to="/portal/order"
-          className="inline-flex items-center justify-center gap-3 bg-white text-brand-dark px-8 py-4 rounded-2xl font-bold text-sm tracking-widest min-h-12 hover:bg-brand-cream transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-white text-brand-dark px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm tracking-widest hover:bg-brand-cream transition-colors"
         >
           BROWSE MENU
           <HiOutlineArrowRight aria-hidden="true" />
@@ -119,7 +119,7 @@ const CustomerDashboard = () => {
       </section>
 
       {/* Stats Grid */}
-      <section aria-label="Account summary" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section aria-label="Account summary" className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
         <StatCard
           title="Total Orders"
           value={stats.totalOrders}
@@ -152,32 +152,32 @@ const CustomerDashboard = () => {
 
       {/* Loyalty Progress */}
       <section
-        className="bg-surface border border-border-subtle rounded-3xl p-8 lg:p-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8"
+        className="bg-surface border border-border-subtle rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
         aria-label="Loyalty progress"
       >
-        <div className="flex flex-col gap-3 max-w-md">
-          <div className="flex items-center gap-3 text-text-primary">
-            <HiOutlineStar size={24} className="text-brand-primary" aria-hidden="true" />
-            <span className="font-display font-bold text-2xl tracking-tight">
+        <div className="flex flex-col gap-2 max-w-md w-full">
+          <div className="flex items-center gap-2 text-text-primary">
+            <HiOutlineStar size={18} className="text-brand-primary" aria-hidden="true" />
+            <span className="font-display font-bold text-base sm:text-lg tracking-tight">
               {points} Oasis Points
             </span>
           </div>
-          <p className="text-text-muted font-medium text-sm">Earn 1 point for every GHC 10 spent.</p>
+          <p className="text-text-muted font-medium text-[11px] sm:text-xs">Earn 1 point for every GHC 10 spent.</p>
 
-          <div className="mt-4 w-full bg-text-primary/5 rounded-full h-2 overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={points % 100} aria-label={`${pointsToNext} points until next reward`}>
+          <div className="mt-2 w-full bg-text-primary/5 rounded-full h-1.5 overflow-hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={points % 100} aria-label={`${pointsToNext} points until next reward`}>
             <div
               className="bg-brand-primary h-full rounded-full transition-[width]"
               style={{ width: `${Math.min((points % 100), 100)}%` }}
             />
           </div>
-          <p className="text-text-muted text-[10px] font-bold uppercase tracking-widest mt-1">
+          <p className="text-text-muted text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
             {pointsToNext} points until your next reward
           </p>
         </div>
 
         <Link
           to="/portal/loyalty"
-          className="bg-brand-primary text-text-primary px-8 py-4 rounded-2xl font-bold text-sm tracking-widest hover:bg-brand-primary/90 transition-colors whitespace-nowrap min-h-12 inline-flex items-center"
+          className="bg-brand-primary text-text-primary px-5 sm:px-7 py-2 sm:py-2.5 rounded-xl font-bold text-[11px] sm:text-xs tracking-widest hover:bg-brand-primary/90 transition-colors whitespace-nowrap inline-flex items-center self-stretch sm:self-auto justify-center"
         >
           VIEW HISTORY
         </Link>
@@ -185,35 +185,35 @@ const CustomerDashboard = () => {
 
       {/* Order Again */}
       {recentOrders.length > 0 && (
-        <section aria-label="Order again" className="space-y-4">
+        <section aria-label="Order again" className="space-y-3">
           <div className="flex justify-between items-end">
-            <h2 className="text-xl font-display font-bold tracking-tight text-text-primary">
+            <h2 className="text-base sm:text-lg font-display font-bold tracking-tight text-text-primary">
               Order again
             </h2>
-            <Link to="/portal/order" className="text-brand-primary text-xs font-bold hover:underline tracking-widest uppercase font-sans min-h-10 inline-flex items-center">Browse menu</Link>
+            <Link to="/portal/order" className="text-brand-primary text-[11px] font-bold hover:underline tracking-widest uppercase font-sans inline-flex items-center">Browse →</Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
             {recentOrders.slice(0, 3).map(order => (
               <div
                 key={order.id}
-                className="p-5 rounded-2xl border border-border-subtle bg-surface hover:border-brand-primary/50 transition-colors"
+                className="p-3 rounded-xl border border-border-subtle bg-surface hover:border-brand-primary/50 transition-colors"
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-primary/15 text-brand-primary">
-                    <HiOutlineArrowPath size={20} aria-hidden="true" />
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-brand-primary/15 text-brand-primary">
+                    <HiOutlineArrowPath size={16} aria-hidden="true" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-text-primary text-sm truncate">Order {order.orderNumber}</p>
-                    <p className="text-[10px] text-text-muted uppercase font-bold tracking-widest">
+                    <p className="font-bold text-text-primary text-[12px] truncate">{order.orderNumber}</p>
+                    <p className="text-[9px] text-text-muted uppercase font-bold tracking-widest">
                       {order.items?.length} item{order.items?.length !== 1 ? 's' : ''}
                     </p>
                   </div>
                 </div>
                 <Link
                   to="/portal/order"
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-brand-primary border border-brand-primary/30 hover:bg-brand-primary hover:text-text-primary transition-colors min-h-10"
+                  className="w-full flex items-center justify-center gap-1 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest text-brand-primary border border-brand-primary/30 hover:bg-brand-primary hover:text-text-primary transition-colors"
                 >
-                  Reorder <HiOutlineArrowRight size={14} aria-hidden="true" />
+                  Reorder <HiOutlineArrowRight size={12} aria-hidden="true" />
                 </Link>
               </div>
             ))}
@@ -222,92 +222,85 @@ const CustomerDashboard = () => {
       )}
 
       {/* Recent Orders + Notifications */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-7">
 
-        <section aria-label="Recent orders" className="lg:col-span-2 space-y-6">
+        <section aria-label="Recent orders" className="lg:col-span-2 space-y-3">
           <div className="flex justify-between items-end">
-            <h2 className="text-xl font-display font-bold tracking-tight text-text-primary">
+            <h2 className="text-base sm:text-lg font-display font-bold tracking-tight text-text-primary">
               Recent orders
             </h2>
-            <Link to="/portal/orders" className="text-brand-primary text-xs font-bold hover:underline tracking-widest uppercase font-sans min-h-10 inline-flex items-center">View all</Link>
+            <Link to="/portal/orders" className="text-brand-primary text-[11px] font-bold hover:underline tracking-widest uppercase font-sans inline-flex items-center">View all</Link>
           </div>
 
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             {recentOrders.length > 0 ? recentOrders.map(order => (
-              <article key={order.id} className="bg-brand-bg border border-border-subtle p-6 rounded-2xl hover:bg-text-primary/[0.03] transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                <div className="flex gap-4 items-center">
-                  <div className="w-14 h-14 bg-text-primary/5 rounded-xl flex items-center justify-center text-brand-primary shrink-0">
-                    <HiOutlineShoppingBag size={24} aria-hidden="true" />
+              <Link
+                to={`/portal/orders/${order.id}`}
+                key={order.id}
+                aria-label={`Open order ${order.orderNumber}`}
+                className="bg-brand-bg border border-border-subtle p-3 rounded-xl hover:bg-text-primary/[0.03] active:scale-[0.99] transition-all"
+              >
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="w-9 h-9 bg-text-primary/5 rounded-lg flex items-center justify-center text-brand-primary shrink-0">
+                    <HiOutlineShoppingBag size={18} aria-hidden="true" />
                   </div>
-                  <div>
-                    <p className="font-bold text-text-primary mb-1">Order {order.orderNumber}</p>
-                    <p className="text-[10px] text-text-muted uppercase font-bold tracking-widest">
-                      {new Date(order.createdAt).toLocaleDateString()} • {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-bold text-text-primary text-[13px] truncate">{order.orderNumber}</p>
+                    <p className="text-[9px] text-text-muted uppercase font-bold tracking-widest truncate">
+                      {new Date(order.createdAt).toLocaleDateString()} · {order.items.length} {order.items.length === 1 ? 'item' : 'items'}
                     </p>
                   </div>
+                  <p className="font-black text-text-primary text-sm shrink-0">₵{order.totalAmount}</p>
                 </div>
-
-                <div className="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end">
-                  <div className="text-right">
-                    <p className="font-black text-text-primary">₵{order.totalAmount}</p>
-                    <div className="mt-1"><OrderStatusBadge status={order.status} /></div>
-                  </div>
-                  <Link
-                    to={`/portal/orders/${order.id}`}
-                    aria-label={`Open order ${order.orderNumber}`}
-                    className="w-12 h-12 inline-flex items-center justify-center bg-text-primary/5 hover:bg-brand-primary rounded-xl text-text-muted hover:text-text-primary transition-colors"
-                  >
-                    <HiOutlineArrowRight size={20} aria-hidden="true" />
-                  </Link>
-                </div>
-              </article>
+                <OrderStatusBadge status={order.status} />
+              </Link>
             )) : (
-              <div className="bg-brand-bg border border-border-subtle p-12 rounded-2xl text-center">
-                 <HiOutlineShoppingBag size={48} className="mx-auto text-text-muted/40 mb-4" aria-hidden="true" />
-                 <p className="text-text-muted font-bold mb-6 font-sans">No orders yet.</p>
-                 <Link to="/portal/order" className="text-brand-primary font-bold text-sm hover:underline uppercase tracking-widest font-sans min-h-12 inline-flex items-center">Place your first order</Link>
+              <div className="sm:col-span-2 bg-brand-bg border border-border-subtle p-6 rounded-xl text-center">
+                 <HiOutlineShoppingBag size={36} className="mx-auto text-text-muted/40 mb-2" aria-hidden="true" />
+                 <p className="text-text-muted font-bold mb-3 font-sans text-sm">No orders yet.</p>
+                 <Link to="/portal/order" className="text-brand-primary font-bold text-xs hover:underline uppercase tracking-widest font-sans inline-flex items-center">Place your first order</Link>
               </div>
             )}
           </div>
         </section>
 
-        <section aria-label="Notifications" className="space-y-6">
+        <section aria-label="Notifications" className="space-y-3">
           <div className="flex justify-between items-end">
-            <h2 className="text-xl font-display font-bold tracking-tight text-text-primary">
+            <h2 className="text-base sm:text-lg font-display font-bold tracking-tight text-text-primary">
               Notifications
             </h2>
-            <Link to="/portal/notifications" className="text-brand-primary text-xs font-bold hover:underline tracking-widest uppercase font-sans min-h-10 inline-flex items-center">View all</Link>
+            <Link to="/portal/notifications" className="text-brand-primary text-[11px] font-bold hover:underline tracking-widest uppercase font-sans inline-flex items-center">View all</Link>
           </div>
 
-          <div className="bg-brand-bg border border-border-subtle rounded-3xl overflow-hidden divide-y divide-border-subtle">
+          <div className="bg-brand-bg border border-border-subtle rounded-2xl overflow-hidden divide-y divide-border-subtle">
              {recentNotifs.length > 0 ? recentNotifs.map(n => (
-               <div key={n.id} className="p-6 hover:bg-text-primary/[0.02] transition-colors relative">
-                  {!n.read && <div className="absolute left-0 top-6 bottom-6 w-1 bg-brand-primary rounded-r-full" aria-hidden="true" />}
-                  <div className="flex gap-4">
-                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${!n.read ? 'bg-brand-primary/20 text-brand-primary' : 'bg-text-primary/5 text-text-muted'}`}>
-                        <HiOutlineBell size={18} aria-hidden="true" />
+               <div key={n.id} className="p-3 hover:bg-text-primary/[0.02] transition-colors relative">
+                  {!n.read && <div className="absolute left-0 top-3 bottom-3 w-0.5 bg-brand-primary rounded-r-full" aria-hidden="true" />}
+                  <div className="flex gap-2.5">
+                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${!n.read ? 'bg-brand-primary/20 text-brand-primary' : 'bg-text-primary/5 text-text-muted'}`}>
+                        <HiOutlineBell size={14} aria-hidden="true" />
                      </div>
-                     <div>
-                        <p className={`text-sm font-bold mb-1 font-sans ${!n.read ? 'text-text-primary' : 'text-text-muted'}`}>{n.title}</p>
+                     <div className="min-w-0">
+                        <p className={`text-[12px] font-bold mb-0.5 font-sans truncate ${!n.read ? 'text-text-primary' : 'text-text-muted'}`}>{n.title}</p>
                         <p className="text-[10px] text-text-muted line-clamp-2 leading-relaxed font-sans">{n.message}</p>
                      </div>
                   </div>
                </div>
              )) : (
-               <div className="p-12 text-center text-text-muted/40">
-                  <HiOutlineBell size={32} className="mx-auto mb-2" aria-hidden="true" />
-                  <p className="text-xs font-bold uppercase tracking-widest font-sans">No activity</p>
+               <div className="p-6 text-center text-text-muted/40">
+                  <HiOutlineBell size={24} className="mx-auto mb-2" aria-hidden="true" />
+                  <p className="text-[11px] font-bold uppercase tracking-widest font-sans">No activity</p>
                </div>
              )}
           </div>
 
-          <div className="bg-brand-primary/5 border border-brand-primary/15 p-6 rounded-3xl">
-             <div className="flex items-center gap-3 mb-3">
-                <HiOutlineStar className="text-brand-primary" size={20} aria-hidden="true" />
-                <span className="text-xs font-black text-text-primary uppercase tracking-tight font-sans">Need help?</span>
+          <div className="bg-brand-primary/5 border border-brand-primary/15 p-3 sm:p-4 rounded-2xl">
+             <div className="flex items-center gap-2 mb-1.5">
+                <HiOutlineStar className="text-brand-primary" size={16} aria-hidden="true" />
+                <span className="text-[11px] font-black text-text-primary uppercase tracking-tight font-sans">Need help?</span>
              </div>
-             <p className="text-[11px] text-text-muted leading-relaxed mb-4 font-sans">Our support team is available via WhatsApp for any order inquiries or complaints.</p>
-             <a href="https://wa.me/UPDATE_WITH_KO_WHATSAPP" className="text-[10px] font-black text-brand-primary uppercase tracking-[0.2em] hover:underline inline-flex items-center gap-1 font-sans min-h-10">
+             <p className="text-[10px] text-text-muted leading-relaxed mb-2 font-sans">Our support team is available via WhatsApp.</p>
+             <a href="https://wa.me/UPDATE_WITH_KO_WHATSAPP" className="text-[10px] font-black text-brand-primary uppercase tracking-[0.18em] hover:underline inline-flex items-center gap-1 font-sans">
                 Contact support <HiOutlineArrowRight size={10} aria-hidden="true" />
              </a>
           </div>

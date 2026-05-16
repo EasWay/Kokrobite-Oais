@@ -113,42 +113,42 @@ export default function DriverDashboard() {
   if (loading) return <DashboardSkeleton />
 
   return (
-    <div className="space-y-4">
-      
+    <div className="space-y-3">
+
       {/* ── DRIVER GREETING CARD ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#1C0A00] to-[#F97316] rounded-2xl p-5 shadow-xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#1C0A00] to-[#F97316] rounded-2xl p-3.5 shadow-xl">
         <div className="relative z-10 flex justify-between items-start">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mb-1">
+          <div className="min-w-0">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/60 mb-0.5">
               {getGreeting()}
             </p>
-            <h2 className="text-2xl font-['Playfair_Display'] text-white mb-2">
+            <h2 className="text-lg font-['Playfair_Display'] text-white mb-1.5 truncate">
               {driver?.name}
             </h2>
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${
-                driver?.status === 'online' ? 'bg-emerald-400' : 
+            <div className="flex items-center gap-1.5">
+              <div className={`w-1.5 h-1.5 rounded-full ${
+                driver?.status === 'online' ? 'bg-emerald-400' :
                 driver?.status === 'delivering' ? 'bg-orange-400' : 'bg-white/40'
               }`} />
-              <span className="text-[11px] font-medium text-white/80">
-                {driver?.status === 'online' ? 'You are online' : 
+              <span className="text-[10px] font-medium text-white/80">
+                {driver?.status === 'online' ? 'You are online' :
                  driver?.status === 'delivering' ? 'On delivery' : 'You are offline'}
               </span>
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-4xl font-['Playfair_Display'] text-white">
-              {driver?.rating.toFixed(1)}<span className="text-2xl">★</span>
+          <div className="text-right shrink-0">
+            <p className="text-2xl font-['Playfair_Display'] text-white leading-none">
+              {driver?.rating.toFixed(1)}<span className="text-base">★</span>
             </p>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Rating</p>
+            <p className="text-[9px] text-white/50 uppercase tracking-widest mt-0.5">Rating</p>
           </div>
         </div>
         {/* Background Accent */}
-        <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
       </div>
 
       {/* ── STATS GRID ── */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         <StatCard 
           label="Today's Earnings" 
           value={`GHS ${summary?.todayEarnings || 0}`} 
@@ -317,18 +317,20 @@ export default function DriverDashboard() {
 
 function StatCard({ label, value, icon, type }) {
   return (
-    <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-4 shadow-sm">
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-3 ${
+    <div className="bg-[#1a1a1a] border border-white/5 rounded-xl p-2.5 shadow-sm flex items-center gap-2.5">
+      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
         type === 'primary' ? 'bg-orange-500/10' : 'bg-emerald-500/10'
       }`}>
         {icon}
       </div>
-      <p className={`font-['Playfair_Display'] text-white ${label.length > 15 ? 'text-xl' : 'text-2xl'}`}>
-        {value}
-      </p>
-      <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mt-1 whitespace-nowrap">
-        {label}
-      </p>
+      <div className="min-w-0">
+        <p className={`font-['Playfair_Display'] text-white leading-tight ${label.length > 15 ? 'text-base' : 'text-lg'}`}>
+          {value}
+        </p>
+        <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 truncate">
+          {label}
+        </p>
+      </div>
     </div>
   )
 }

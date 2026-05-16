@@ -228,7 +228,7 @@ const Dashboard = () => {
         </div>
 
         <div className="h-[300px] w-full" style={{ minHeight: '300px' }}>
-          <ResponsiveContainer width="100%" height="100%" debounce={50}>
+          <ResponsiveContainer width="100%" height="100%" debounce={50} minWidth={0}>
             <ComposedChart data={filteredRevenueByDay}>
               <defs>
                 <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
@@ -399,8 +399,8 @@ const Dashboard = () => {
           className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-8 h-[400px] flex flex-col"
         >
           <h3 className="text-lg font-bold text-white mb-4">Orders by Status</h3>
-          <div className="flex-1 w-full relative" style={{ minHeight: '250px' }}>
-            <ResponsiveContainer width="100%" height="100%" debounce={50}>
+          <div className="w-full h-[300px] relative">
+            <ResponsiveContainer width="100%" height="100%" debounce={50} minWidth={0}>
               <PieChart>
                 <Pie
                   data={pieData}
@@ -444,7 +444,7 @@ const Dashboard = () => {
         >
           <h3 className="text-lg font-bold text-white mb-8">Orders by Branch</h3>
           <div className="h-[250px] w-full" style={{ minHeight: '250px' }}>
-            <ResponsiveContainer width="100%" height="100%" debounce={50}>
+            <ResponsiveContainer width="100%" height="100%" debounce={50} minWidth={0}>
               <RechartsBarChart data={ordersByBranch} layout="vertical">
                 <XAxis type="number" hide />
                 <YAxis 

@@ -19,12 +19,14 @@ router.get("/", async (req, res) => {
           instagram: "kokrobiteoasis",
           facebook: "kokrobiteoasis",
           openingHours: "Mon-Sat: 10AM - 11PM",
-          email: "info@kokrobiteoasis.com"
+          email: "info@kokrobiteoasis.com",
+          updatedAt: new Date()
         }
       });
     }
     res.json(config);
   } catch (err) {
+    console.error("GET /api/config failed:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -34,13 +36,16 @@ router.get("/", async (req, res) => {
 // @access  Private
 router.put("/", auth, async (req, res) => {
   try {
+    const { id, createdAt, updatedAt: _ignored, ...rest } = req.body || {};
+    const now = new Date();
     const config = await prisma.siteConfig.upsert({
       where: { id: "default" },
-      update: req.body,
-      create: { id: "default", ...req.body }
+      update: { ...rest, updatedAt: now },
+      create: { id: "default", ...rest, updatedAt: now }
     });
     res.json(config);
   } catch (err) {
+    console.error("PUT /api/config failed:", err);
     res.status(500).json({ message: err.message });
   }
 });

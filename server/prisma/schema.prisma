@@ -364,7 +364,7 @@ model SiteConfig {
   email          String?
   openingHours   String?
   address        String?
-  updatedAt      DateTime
+  updatedAt      DateTime @updatedAt
 }
 
 model DriverReport {

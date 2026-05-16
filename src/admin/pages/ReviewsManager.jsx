@@ -148,37 +148,37 @@ const ReviewsManager = () => {
   }, [reviews]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-5">
       {/* Top Bar */}
-      <div className="flex flex-col gap-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-display font-bold text-white">Customer Reviews</h1>
-          <button 
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <div className="flex justify-between items-center gap-2">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-white">Reviews</h1>
+          <button
             onClick={() => openModal()}
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all active:scale-95 shadow-[0_8px_20px_rgba(249,115,22,0.30)]"
+            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white px-3 sm:px-4 py-1.5 rounded-lg font-bold text-[11px] sm:text-xs flex items-center gap-1.5 transition-all active:scale-95"
           >
-            <HiOutlinePlus size={18} /> Add Review
+            <HiOutlinePlus size={14} /> Add
           </button>
         </div>
 
         {/* Rating Summary Card */}
-        <div className="bg-gradient-to-br from-[#1C0A00]/80 to-[#F97316]/15 border border-[#F97316]/20 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8">
-           <div className="text-center md:text-left">
-              <h2 className="text-6xl font-display font-bold text-white mb-2">{avgRating}</h2>
-              <div className="flex justify-center md:justify-start mb-2">
+        <div className="bg-gradient-to-br from-[#1C0A00]/80 to-[#F97316]/15 border border-[#F97316]/20 rounded-2xl p-3 sm:p-4 lg:p-5 flex flex-col md:flex-row items-center gap-3 sm:gap-4">
+           <div className="text-center md:text-left shrink-0">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white leading-none">{avgRating}</h2>
+              <div className="flex justify-center md:justify-start my-1">
                  {renderStars(Math.round(avgRating))}
               </div>
-              <p className="text-white/40 text-sm font-sans">Based on Kokrobite Oasis reviews</p>
+              <p className="text-white/40 text-[10px] sm:text-xs font-sans">Based on reviews</p>
            </div>
-           <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+           <div className="flex-1 grid grid-cols-5 gap-1.5 w-full">
               {[5,4,3,2,1].map(s => {
                 const count = reviews.filter(r => r.rating === s).length;
                 const percent = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
                 return (
-                  <div key={s} className="bg-white/5 rounded-xl p-3 border border-white/5">
-                     <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-bold text-white/40 uppercase">{s} Stars</span>
-                        <span className="text-xs font-bold text-white">{count}</span>
+                  <div key={s} className="bg-white/5 rounded-lg p-1.5 border border-white/5">
+                     <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-[9px] font-bold text-white/40">{s}★</span>
+                        <span className="text-[10px] font-bold text-white">{count}</span>
                      </div>
                      <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
                         <div className="h-full bg-[#F97316]" style={{ width: `${percent}%` }} />
@@ -189,27 +189,27 @@ const ReviewsManager = () => {
            </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5">
+          <div className="flex bg-white/5 p-0.5 rounded-lg border border-white/10 self-stretch sm:self-auto overflow-x-auto no-scrollbar">
              {['All', 'Approved', 'Pending', 'Featured'].map(t => (
-               <button 
+               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-6 py-2 rounded-lg text-xs font-bold transition-all ${tab === t ? 'bg-[#F97316] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
+                className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-md text-[10px] sm:text-[11px] font-bold transition-all whitespace-nowrap ${tab === t ? 'bg-[#F97316] text-white shadow' : 'text-white/40 hover:text-white'}`}
                >
                  {t}
                </button>
              ))}
           </div>
 
-          <div className="flex items-center gap-4 w-full lg:w-auto">
-             <div className="relative flex-1 lg:w-64">
-                <HiOutlineMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" />
-                <input value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-[#F97316] outline-none font-sans" placeholder="Search author..." />
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+             <div className="relative flex-1 sm:w-48 lg:w-56">
+                <HiOutlineMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                <input value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:border-[#F97316] outline-none font-sans" placeholder="Search…" />
              </div>
-             <select value={ratingFilter} onChange={e => setRatingFilter(e.target.value)} className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white/60 focus:border-[#F97316] outline-none font-sans">
-                <option value="All">All Ratings</option>
-                {[5,4,3,2,1].map(r => <option key={r} value={r}>{r} Stars</option>)}
+             <select value={ratingFilter} onChange={e => setRatingFilter(e.target.value)} className="bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white/60 focus:border-[#F97316] outline-none font-sans">
+                <option value="All">All</option>
+                {[5,4,3,2,1].map(r => <option key={r} value={r}>{r}★</option>)}
              </select>
           </div>
         </div>
@@ -228,75 +228,73 @@ const ReviewsManager = () => {
       )}
 
       {loading ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <Skeleton height="200px" count={4} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
+           <Skeleton height="140px" count={6} />
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
           <AnimatePresence>
             {filteredReviews.length === 0 ? (
-              <div className="lg:col-span-2 bg-[#0C0A09] border border-[#F97316]/10 rounded-3xl p-20 text-center">
-                <HiOutlineStar size={48} className="text-[#F97316] mb-6 mx-auto" />
+              <div className="sm:col-span-2 lg:col-span-3 bg-[#0C0A09] border border-[#F97316]/10 rounded-2xl p-8 sm:p-12 text-center">
+                <HiOutlineStar size={36} className="text-[#F97316] mb-3 mx-auto" />
                 <h3 className="text-2xl font-display font-bold text-white mb-2">No Reviews Yet</h3>
                 <p className="text-white/40 max-w-sm mx-auto font-sans">Customer reviews for Kokrobite Oasis will appear here</p>
               </div>
             ) : filteredReviews.map((review) => (
-              <motion.div 
+              <motion.div
                 layout
                 key={review.id}
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="bg-[#1a1a1a] border border-[#F97316]/08 rounded-2xl p-6 relative group"
+                className="bg-[#1a1a1a] border border-[#F97316]/08 rounded-xl p-3 relative group"
               >
-                <div className="absolute top-6 left-6 z-10">
-                   <input 
-                    type="checkbox" 
-                    checked={selectedIds.includes(review.id)} 
+                <div className="absolute top-3 left-3 z-10">
+                   <input
+                    type="checkbox"
+                    checked={selectedIds.includes(review.id)}
                     onChange={(e) => {
                       if (e.target.checked) setSelectedIds([...selectedIds, review.id]);
                       else setSelectedIds(selectedIds.filter(id => id !== review.id));
                     }}
-                    className="w-4 h-4 rounded border-white/10 bg-white/5 accent-[#F97316]"
+                    className="w-3.5 h-3.5 rounded border-white/10 bg-white/5 accent-[#F97316]"
                    />
                 </div>
 
-                <div className="pl-10">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                       <div className="w-10 h-10 rounded-full bg-[#F97316] flex items-center justify-center text-white font-bold font-sans">
+                <div className="pl-7">
+                  <div className="flex justify-between items-start mb-2 gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                       <div className="w-8 h-8 rounded-full bg-[#F97316] flex items-center justify-center text-white font-bold text-xs font-sans shrink-0">
                          {review.author.charAt(0)}
                        </div>
-                       <div>
-                          <p className="text-sm font-bold text-white font-sans">{review.author}</p>
-                          <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest font-sans">{new Date(review.createdAt).toLocaleDateString()}</p>
+                       <div className="min-w-0">
+                          <p className="text-[12px] font-bold text-white font-sans truncate">{review.author}</p>
+                          <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest font-sans">{new Date(review.createdAt).toLocaleDateString()}</p>
                        </div>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                       <div className="flex gap-2">
-                         {review.featured && (
-                           <span className="bg-[#F97316]/15 text-[#F97316] text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded font-sans flex items-center gap-1">
-                             <HiStar size={12} /> Featured
-                           </span>
-                         )}
-                         <span className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded font-sans flex items-center gap-1 ${review.approved ? 'bg-[#10B981]/15 text-[#10B981]' : 'bg-[#F59E0B]/15 text-[#F59E0B]'}`}>
-                           {review.approved ? 'Published' : 'Pending Review'}
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                       <span className={`text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded font-sans flex items-center gap-0.5 ${review.approved ? 'bg-[#10B981]/15 text-[#10B981]' : 'bg-[#F59E0B]/15 text-[#F59E0B]'}`}>
+                         {review.approved ? '✓' : '⏳'}{review.approved ? 'Pub' : 'Pend'}
+                       </span>
+                       {review.featured && (
+                         <span className="bg-[#F97316]/15 text-[#F97316] text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded font-sans flex items-center gap-0.5">
+                           <HiStar size={10} /> Feat
                          </span>
-                       </div>
+                       )}
                     </div>
                   </div>
 
-                  <div className="mb-4">
+                  <div className="mb-2">
                     {renderStars(review.rating)}
                   </div>
 
-                  <p className="text-white/70 font-display italic text-lg leading-relaxed mb-4">"{review.comment}"</p>
-                  
+                  <p className="text-white/70 font-display italic text-[13px] leading-snug mb-2 line-clamp-3">"{review.comment}"</p>
+
                   {review.branch && (
-                    <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mb-6 font-sans">Visited: {review.branch}</p>
+                    <p className="text-[9px] text-white/30 font-bold uppercase tracking-widest mb-2 font-sans truncate">@{review.branch}</p>
                   )}
 
-                  <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5">
                      <div className="flex gap-4">
                         <button 
                           onClick={() => handleToggle(review.id, 'approved')}

@@ -145,20 +145,20 @@ export default function CustomersManager() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
         {[
           { label: 'Total Customers', value: stats.totalCustomers, icon: HiOutlineUsers, color: 'text-[#F97316]', bg: 'bg-[#F97316]/10' },
           { label: 'New Today', value: stats.newToday, icon: HiOutlineCheckCircle, color: 'text-[#FB923C]', bg: 'bg-[#FB923C]/10' },
           { label: 'Total Revenue', value: formatCurrency(stats.totalRevenue), icon: HiOutlineCurrencyDollar, color: 'text-[#10B981]', bg: 'bg-[#10B981]/10' },
           { label: 'Avg Order Value', value: formatCurrency(stats.avgOrderValue), icon: HiOutlineShoppingBag, color: 'text-[#F59E0B]', bg: 'bg-[#F59E0B]/10' },
         ].map((stat) => (
-          <div key={stat.label} className="bg-[#1a1a1a] border border-[#F97316]/[0.08] rounded-xl p-4 flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${stat.bg} ${stat.color}`}>
-              <stat.icon size={24} />
+          <div key={stat.label} className="bg-[#1a1a1a] border border-[#F97316]/[0.08] rounded-xl p-2.5 sm:p-3 flex items-center gap-2.5">
+            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center ${stat.bg} ${stat.color} shrink-0`}>
+              <stat.icon size={16} />
             </div>
-            <div>
-              <p className="text-white/60 text-xs font-medium uppercase tracking-wider">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-white mt-1">{stat.value}</h3>
+            <div className="min-w-0">
+              <p className="text-white/60 text-[9px] sm:text-[10px] font-medium uppercase tracking-wider truncate">{stat.label}</p>
+              <h3 className="text-base sm:text-lg font-bold text-white leading-tight">{stat.value}</h3>
             </div>
           </div>
         ))}
@@ -198,19 +198,77 @@ export default function CustomersManager() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+      {/* Mobile: card grid */}
+      <div className="md:hidden">
+        {loading ? (
+          <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center text-white/60 text-sm">Loading…</div>
+        ) : customers.length === 0 ? (
+          <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
+            <span className="text-4xl">👥</span>
+            <h3 className="text-base font-display font-bold text-white mt-2">No customers</h3>
+            <p className="text-white/40 text-xs mt-1">Customers will appear here when they register.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {customers.map((customer) => (
+              <div
+                key={customer.id}
+                onClick={() => openCustomerModal(customer.id)}
+                className="bg-white/5 border border-white/10 rounded-xl p-3 active:bg-[#F97316]/[0.05] transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5 mb-2">
+                  {customer.avatar ? (
+                    <img src={customer.avatar} alt="" className="w-9 h-9 rounded-full object-cover border border-[#F97316]/20 shrink-0" />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#F97316] to-[#FB923C] text-white flex items-center justify-center font-display font-bold shrink-0">
+                      {customer.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[13px] font-bold text-white truncate">{customer.name}</p>
+                    <p className="text-[10px] text-white/40 truncate">{customer.email}</p>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase shrink-0 ${
+                    customer.isActive ? 'bg-[#10B981]/15 text-[#10B981]' : 'bg-[#EF4444]/15 text-[#EF4444]'
+                  }`}>
+                    {customer.isActive ? 'Active' : 'Off'}
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Orders</p>
+                    <p className="text-sm font-bold text-[#F97316]">{customer.totalOrders}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Spent</p>
+                    <p className="text-xs font-bold text-[#10B981]">{formatCurrency(customer.totalSpent)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/30 uppercase">Points</p>
+                    <p className="text-xs font-bold text-yellow-400 flex items-center justify-center gap-0.5">
+                      <HiStar size={11} /> {customer.loyaltyPoints}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: Table */}
+      <div className="hidden md:block bg-white/5 border border-white/10 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-white/80">
             <thead className="bg-white/5 text-white/40 text-xs uppercase font-medium">
               <tr>
-                <th className="px-6 py-4">Customer</th>
-                <th className="px-6 py-4">Contact</th>
-                <th className="px-6 py-4">Orders</th>
-                <th className="px-6 py-4">Total Spent</th>
-                <th className="px-6 py-4">Loyalty</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-4 py-3">Customer</th>
+                <th className="px-4 py-3">Contact</th>
+                <th className="px-4 py-3">Orders</th>
+                <th className="px-4 py-3">Total Spent</th>
+                <th className="px-4 py-3">Loyalty</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10">
@@ -233,7 +291,7 @@ export default function CustomersManager() {
               ) : (
                 customers.map((customer) => (
                   <tr key={customer.id} className="hover:bg-[#F97316]/[0.04] transition-colors">
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         {customer.avatar ? (
                           <img src={customer.avatar} alt="" className="w-10 h-10 rounded-full object-cover border border-[#F97316]/20" />
@@ -248,32 +306,32 @@ export default function CustomersManager() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div>{customer.email}</div>
                       <div className="text-xs text-white/60">{customer.phone || 'No phone'}</div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <span className="bg-[#F97316]/15 text-[#F97316] px-2.5 py-1 rounded-full text-xs font-bold font-sans">
                         {customer.totalOrders}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-bold text-[#10B981]">
+                    <td className="px-4 py-3 font-bold text-[#10B981]">
                       {formatCurrency(customer.totalSpent)}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-1 text-yellow-400">
                         <HiStar size={16} />
                         <span className="font-bold">{customer.loyaltyPoints}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                         customer.isActive ? 'bg-[#10B981]/15 text-[#10B981]' : 'bg-[#EF4444]/15 text-[#EF4444]'
                       }`}>
                         {customer.isActive ? 'Active' : 'Suspended'}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openCustomerModal(customer.id)}

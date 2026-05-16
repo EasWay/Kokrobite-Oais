@@ -226,7 +226,7 @@ const GalleryManager = () => {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-5">
       {/* Top Bar */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <h1 className="text-3xl font-display font-bold text-white">Gallery Manager</h1>

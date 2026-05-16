@@ -133,7 +133,7 @@ const AnnouncementsManager = () => {
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-4 sm:space-y-5">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-display font-bold text-white">Announcements</h1>
           <button 
@@ -201,7 +201,7 @@ const AnnouncementsManager = () => {
 
       {/* Modal */}
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={<span className="font-display">{editingAnn ? "Edit Announcement" : "New Announcement"}</span>} size="md" className="bg-[#1a1a1a] border border-[#F97316]/10">
-         <form onSubmit={handleSubmit} className="space-y-8">
+         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             <div className="space-y-2">
                <label className="text-[10px] font-bold text-white/20 uppercase tracking-widest ml-1">Banner Text</label>
                <textarea required rows={2} value={formData.text} onChange={e => setFormData({ ...formData, text: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-[#F97316] font-bold text-center font-sans" placeholder="e.g. 🔥 Now Delivering Across Accra!" />

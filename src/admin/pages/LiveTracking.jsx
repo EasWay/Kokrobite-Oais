@@ -119,94 +119,94 @@ export default function LiveTracking() {
   })
 
   return (
-    <div className="space-y-8 pb-10">
-      
+    <div className="space-y-4 sm:space-y-5 pb-8">
+
       {/* ── HEADER & SOCKET INDICATOR ── */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-white mb-1">Fleet Tracker</h1>
-          <p className="text-white/40 text-sm">Monitor live deliveries and rider locations in real-time.</p>
+      <div className="flex justify-between items-center gap-2">
+        <div className="min-w-0">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-white leading-tight">Fleet Tracker</h1>
+          <p className="text-white/40 text-[10px] sm:text-xs hidden sm:block">Live deliveries and rider locations.</p>
         </div>
-        
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
+
+        <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border shrink-0 ${
           isSocketConnected ? 'bg-[#10B981]/10 border-[#10B981]/20' : 'bg-red-500/10 border-red-500/20'
         }`}>
-          <div className={`w-2 h-2 rounded-full ${isSocketConnected ? 'bg-[#10B981] animate-pulse' : 'bg-red-500'}`} />
-          <span className={`text-[10px] font-bold uppercase tracking-widest ${isSocketConnected ? 'text-[#10B981]' : 'text-red-500'}`}>
-            {isSocketConnected ? 'Live Connection' : 'Reconnecting...'}
+          <div className={`w-1.5 h-1.5 rounded-full ${isSocketConnected ? 'bg-[#10B981] animate-pulse' : 'bg-red-500'}`} />
+          <span className={`text-[9px] font-bold uppercase tracking-widest ${isSocketConnected ? 'text-[#10B981]' : 'text-red-500'}`}>
+            {isSocketConnected ? 'Live' : 'Reconnecting…'}
           </span>
         </div>
       </div>
 
       {/* ── TOP STATS STRIP ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
         <MiniStat label="In Progress" value={stats.delivering} dotColor="bg-[#F97316]" pulse />
         <MiniStat label="Online" value={stats.online} dotColor="bg-[#10B981]" />
-        <MiniStat label="Awaiting Driver" value={stats.pending} dotColor="bg-[#F59E0B]" />
-        <MiniStat label="Completed Today" value={stats.deliveredToday} dotColor="bg-[#10B981]" />
+        <MiniStat label="Awaiting" value={stats.pending} dotColor="bg-[#F59E0B]" />
+        <MiniStat label="Done Today" value={stats.deliveredToday} dotColor="bg-[#10B981]" />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 min-h-[600px]">
-        
+      <div className="flex flex-col lg:flex-row gap-3 sm:gap-5 lg:gap-6 min-h-[400px]">
+
         {/* ── LEFT PANEL: ACTIVE DELIVERIES ── */}
-        <div className="w-full lg:w-[40%] space-y-4 flex flex-col">
-          <div className="flex items-center gap-2 px-1">
-            <HiOutlineTruck className="text-[#F97316]" size={16} />
-            <h2 className="font-bold text-sm text-white uppercase tracking-widest">Live Deliveries</h2>
+        <div className="w-full lg:w-[40%] space-y-2.5 flex flex-col">
+          <div className="flex items-center gap-1.5 px-1">
+            <HiOutlineTruck className="text-[#F97316]" size={14} />
+            <h2 className="font-bold text-[11px] text-white uppercase tracking-widest">Live Deliveries</h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto no-scrollbar space-y-4 pr-2">
+          <div className="flex-1 overflow-y-auto no-scrollbar grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 pr-1">
             {activeOrders.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 bg-[#111111] rounded-[2rem] border border-white/5 space-y-4">
-                <HiOutlineTruck size={48} className="text-white/10" />
+              <div className="sm:col-span-2 lg:col-span-1 flex flex-col items-center justify-center h-40 bg-[#111111] rounded-2xl border border-white/5 space-y-2">
+                <HiOutlineTruck size={32} className="text-white/10" />
                 <div className="text-center">
-                  <p className="font-display text-xl text-white">No Active Deliveries</p>
-                  <p className="text-sm text-white/30">All drivers are currently free</p>
+                  <p className="font-display text-base text-white">No Active Deliveries</p>
+                  <p className="text-[11px] text-white/30">All drivers are currently free</p>
                 </div>
               </div>
             ) : (
               activeOrders.map(order => (
-                <div 
+                <div
                   key={order.id}
-                  className="bg-[#1a1a1a] border border-[#F97316]/15 rounded-2xl p-5 hover:border-[#F97316]/35 transition-all cursor-pointer group shadow-xl"
+                  className="bg-[#1a1a1a] border border-[#F97316]/15 rounded-xl p-3 hover:border-[#F97316]/35 transition-all cursor-pointer group shadow-md"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <p className="text-[#F97316] text-xs font-bold uppercase tracking-widest">#{order.orderNumber}</p>
-                    <p className="text-white/30 text-[10px] font-medium">{formatDistanceToNow(new Date(order.createdAt))} ago</p>
+                  <div className="flex justify-between items-start mb-2">
+                    <p className="text-[#F97316] text-[10px] font-bold uppercase tracking-widest">#{order.orderNumber}</p>
+                    <p className="text-white/30 text-[9px] font-medium">{formatDistanceToNow(new Date(order.createdAt))} ago</p>
                   </div>
 
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <HiOutlineTruck className="text-[#F97316]" size={16} />
-                      <div>
-                        <p className="text-white text-sm font-semibold">{order.delivery?.driver?.name || 'Unassigned'}</p>
-                        <p className="text-[#F97316] text-[10px] font-bold uppercase">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <HiOutlineTruck className="text-[#F97316] shrink-0" size={12} />
+                      <div className="min-w-0">
+                        <p className="text-white text-[12px] font-semibold truncate">{order.delivery?.driver?.name || 'Unassigned'}</p>
+                        <p className="text-[#F97316] text-[9px] font-bold uppercase truncate">
                           {order.status === 'preparing' ? 'Heading to restaurant' : 'On the way to customer'}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <HiOutlineUser className="text-white/40" size={16} />
-                      <p className="text-white/60 text-sm font-medium">{order.customer?.name}</p>
+                    <div className="flex items-center gap-2">
+                      <HiOutlineUser className="text-white/40 shrink-0" size={12} />
+                      <p className="text-white/60 text-[11px] font-medium truncate">{order.customer?.name}</p>
                     </div>
 
-                    <div className="flex items-start gap-3">
-                      <HiOutlineMapPin className="text-white/40 shrink-0 mt-0.5" size={16} />
-                      <p className="text-white/40 text-[11px] leading-relaxed line-clamp-2">{order.deliveryAddress}</p>
+                    <div className="flex items-start gap-2">
+                      <HiOutlineMapPin className="text-white/40 shrink-0 mt-0.5" size={12} />
+                      <p className="text-white/40 text-[10px] leading-snug line-clamp-2">{order.deliveryAddress}</p>
                     </div>
 
-                    <div className="flex justify-between items-center pt-3 border-t border-white/5">
+                    <div className="flex justify-between items-center pt-2 border-t border-white/5">
                       <div>
-                        <p className="text-white font-bold text-sm">GHC {order.totalAmount}</p>
-                        <p className="text-white/30 text-[10px]">Driver earns: GHC 20</p>
+                        <p className="text-white font-bold text-[12px]">GHC {order.totalAmount}</p>
+                        <p className="text-white/30 text-[9px]">Earns: GHC 20</p>
                       </div>
-                      
+
                       <div className="relative">
                         <select
                           value={order.status}
                           onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
-                          className="bg-white/5 border border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-[10px] font-bold text-white uppercase tracking-widest appearance-none outline-none focus:border-[#F97316]"
+                          className="bg-white/5 border border-white/10 rounded-md pl-2 pr-6 py-1 text-[9px] font-bold text-white uppercase tracking-widest appearance-none outline-none focus:border-[#F97316]"
                         >
                           <option value="confirmed">Confirmed</option>
                           <option value="preparing">Preparing</option>
@@ -214,7 +214,7 @@ export default function LiveTracking() {
                           {order.type === 'pickup' && <option value="delivered">Delivered</option>}
                           <option value="cancelled">Cancelled</option>
                         </select>
-                        <HiOutlineChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" size={12} />
+                        <HiOutlineChevronDown className="absolute right-1 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" size={10} />
                       </div>
                     </div>
                   </div>
@@ -225,15 +225,15 @@ export default function LiveTracking() {
         </div>
 
         {/* ── RIGHT PANEL: DRIVER FLEET ── */}
-        <div className="w-full lg:w-[60%] space-y-4">
+        <div className="w-full lg:w-[60%] space-y-2.5">
           <div className="flex justify-between items-center px-1">
-            <h2 className="font-bold text-sm text-white uppercase tracking-widest">Driver Fleet Status</h2>
-            <div className="flex bg-white/5 p-1 rounded-xl">
+            <h2 className="font-bold text-[11px] text-white uppercase tracking-widest">Driver Fleet</h2>
+            <div className="flex bg-white/5 p-0.5 rounded-lg">
               {["All", "Online", "Delivering", "Offline"].map(t => (
-                <button 
+                <button
                   key={t}
                   onClick={() => setFilter(t)}
-                  className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
+                  className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest transition-all ${
                     filter === t ? 'bg-[#F97316] text-white' : 'text-white/40 hover:text-white'
                   }`}
                 >
@@ -243,77 +243,65 @@ export default function LiveTracking() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2.5">
             {filteredDrivers.map(driver => (
-              <div 
+              <div
                 key={driver.id}
-                className="bg-[#1a1a1a] border border-white/[0.06] rounded-2xl p-5 space-y-6 shadow-2xl relative overflow-hidden"
+                className="bg-[#1a1a1a] border border-white/[0.06] rounded-xl p-3 space-y-2.5 shadow-md relative overflow-hidden"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FB923C] flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#F97316] to-[#FB923C] flex items-center justify-center text-white text-sm font-bold shadow shrink-0">
                     {driver.name.charAt(0)}
                   </div>
-                  <div>
-                    <h3 className="text-white font-bold text-sm">{driver.name}</h3>
-                    <p className="text-white/40 text-[10px]">{driver.phone}</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-white font-bold text-[13px] truncate">{driver.name}</h3>
+                    <p className="text-white/40 text-[10px] truncate">{driver.phone}</p>
                   </div>
-                  
-                  <div className="ml-auto flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      driver.status === 'online' ? 'bg-[#10B981] animate-pulse' : 
-                      driver.status === 'delivering' ? 'bg-[#F97316] animate-pulse' : 
-                      'bg-white/20'
-                    }`} />
+
+                  <div className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded shrink-0 ${
+                    driver.status === 'online' ? 'bg-[#10B981]/10 text-[#10B981]' :
+                    driver.status === 'delivering' ? 'bg-[#F97316]/10 text-[#F97316]' :
+                    'bg-white/5 text-white/40'
+                  }`}>
+                    {driver.status}
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg inline-flex items-center gap-2 ${
-                    driver.status === 'online' ? 'bg-[#10B981]/10 text-[#10B981]' : 
-                    driver.status === 'delivering' ? 'bg-[#F97316]/10 text-[#F97316]' : 
-                    'bg-white/5 text-white/40'
-                  }`}>
-                    {driver.status === 'online' && <span className="flex items-center gap-1">Online</span>}
-                    {driver.status === 'delivering' && <span className="flex items-center gap-1">Delivering</span>}
-                    {driver.status === 'offline' && <span className="flex items-center gap-1">Offline</span>}
+                {driver.status === 'delivering' && (
+                  <div className="p-2 bg-white/[0.02] border border-white/5 rounded-lg">
+                    <p className="text-[#F97316] text-[9px] font-bold uppercase">Active</p>
+                    <p className="text-white/60 text-[10px] truncate">→ {driver.deliveries?.[0]?.order?.deliveryAddress || 'Heading to customer'}</p>
                   </div>
+                )}
 
-                  {driver.status === 'delivering' && (
-                    <div className="p-3 bg-white/[0.02] border border-white/5 rounded-xl space-y-1">
-                      <p className="text-[#F97316] text-[10px] font-bold">ACTIVE ORDER</p>
-                      <p className="text-white/60 text-[10px] truncate">→ {driver.deliveries?.[0]?.order?.deliveryAddress || 'Heading to Customer'}</p>
-                    </div>
-                  )}
+                <div className="grid grid-cols-3 gap-1.5 py-2 border-y border-white/5">
+                  <DriverMiniStat label="Today" value={`₵${driver.todayEarnings || 0}`} />
+                  <DriverMiniStat label="Trips" value={driver.totalDeliveries || 0} />
+                  <DriverMiniStat label="Rating" value={`★${driver.rating?.toFixed(1) || '0.0'}`} />
+                </div>
 
-                  <div className="grid grid-cols-3 gap-2 py-3 border-y border-white/5">
-                    <DriverMiniStat label="TODAY" value={`₵${driver.todayEarnings || 0}`} />
-                    <DriverMiniStat label="TRIPS" value={driver.totalDeliveries || 0} />
-                    <DriverMiniStat label="RATING" value={`⭐ ${driver.rating?.toFixed(1) || '0.0'}`} />
-                  </div>
+                {driver.currentLat && (
+                  <p className="text-white/20 text-[9px] uppercase tracking-tighter flex items-center gap-1">
+                    <HiOutlineMapPin size={10} />
+                    Last seen {formatDistanceToNow(new Date(driver.lastLocationAt))} ago
+                  </p>
+                )}
 
-                  {driver.currentLat && (
-                    <p className="text-white/20 text-[9px] uppercase tracking-tighter flex items-center gap-1.5">
-                      <HiOutlineMapPin size={10} />
-                      Last seen {formatDistanceToNow(new Date(driver.lastLocationAt))} ago
-                    </p>
-                  )}
-
-                  <div className="grid grid-cols-2 gap-3 pt-2">
-                    <a 
-                      href={`tel:${driver.phone}`}
-                      className="flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-white text-[10px] font-bold uppercase tracking-widest transition-all"
-                    >
-                      <HiOutlinePhone size={14} /> Call
-                    </a>
-                    <a 
-                      href={`https://wa.me/${driver.phone.replace(/\D/g, '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 py-2.5 bg-[#25D366]/10 hover:bg-[#25D366]/20 rounded-xl text-[#25D366] text-[10px] font-bold uppercase tracking-widest transition-all"
-                    >
-                      <HiOutlineChatBubbleLeftRight size={14} /> WhatsApp
-                    </a>
-                  </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <a
+                    href={`tel:${driver.phone}`}
+                    className="flex items-center justify-center gap-1.5 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-white text-[10px] font-bold uppercase tracking-widest transition-all"
+                  >
+                    <HiOutlinePhone size={12} /> Call
+                  </a>
+                  <a
+                    href={`https://wa.me/${driver.phone.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-1.5 bg-[#25D366]/10 hover:bg-[#25D366]/20 rounded-lg text-[#25D366] text-[10px] font-bold uppercase tracking-widest transition-all"
+                  >
+                    <HiOutlineChatBubbleLeftRight size={12} /> WA
+                  </a>
                 </div>
               </div>
             ))}
@@ -328,12 +316,12 @@ export default function LiveTracking() {
 
 function MiniStat({ label, value, dotColor, pulse }) {
   return (
-    <div className="bg-[#111111] border border-white/5 rounded-2xl p-5 flex items-center justify-between shadow-xl">
-      <div>
-        <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-1">{label}</p>
-        <p className="text-2xl font-bold text-white">{value}</p>
+    <div className="bg-[#111111] border border-white/5 rounded-xl p-2.5 sm:p-3 flex items-center justify-between shadow-lg">
+      <div className="min-w-0">
+        <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.18em] truncate">{label}</p>
+        <p className="text-base sm:text-lg font-bold text-white leading-none">{value}</p>
       </div>
-      <div className={`w-3 h-3 rounded-full ${dotColor} ${pulse ? 'animate-pulse' : ''}`} />
+      <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor} ${pulse ? 'animate-pulse' : ''}`} />
     </div>
   )
 }
